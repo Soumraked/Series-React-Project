@@ -22,6 +22,7 @@ import Navbar from "./components/Navbar";
 import Home from "./Views/Home";
 import Series from "./Views/Series";
 import Movies from "./Views/Movies";
+import Settings from "./Views/Settings";
 // End import
 
 function App() {
@@ -47,6 +48,7 @@ function App() {
             <Route exact path="/" component={Home}></Route>
             <Route exact path="/series" component={Series}></Route>
             <Route exact path="/peliculas" component={Movies}></Route>
+            <Route exact path="/configuracion" component={Settings}></Route>
           </Switch>
         </Container>
       </Router>
