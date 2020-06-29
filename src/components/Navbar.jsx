@@ -14,6 +14,7 @@ import Container from "@material-ui/core/Container";
 import LinkButton from "./Navbar/LinkButton";
 import Search from "./Navbar/Search";
 import Avatar from "./Navbar/Avatar";
+import Drawer from "./Navbar/DrawerNavbar";
 // End import
 
 //Style Navbar
@@ -32,12 +33,16 @@ function Navbar() {
       <AppBar position="static" color="default">
         <Container maxWidth="lg">
           <Toolbar>
+            <Drawer />
             <LinkButton name="Kooga" route="/" strong={true} />
             <LinkButton name="Inicio" route="/" />
             <LinkButton name="Series" route="/series" />
             <LinkButton name="Películas" route="/peliculas" class="end" />
             <Search />
-            <Avatar />
+            <Avatar
+              src="https://firebasestorage.googleapis.com/v0/b/monosotakos.appspot.com/o/nekoAvatar.jpg?alt=media"
+              alt="Kooga"
+            />
           </Toolbar>
         </Container>
       </AppBar>

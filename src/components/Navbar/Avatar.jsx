@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Avatar() {
+function Avatar(props) {
   const classes = useStyles();
 
   return (
@@ -20,10 +20,7 @@ function Avatar() {
       color="inherit"
       aria-label="open drawer"
     >
-      <AvatarUI
-        alt="Kooga"
-        src="https://firebasestorage.googleapis.com/v0/b/monosotakos.appspot.com/o/nekoAvatar.jpg?alt=media"
-      />
+      <AvatarUI alt={props.alt} src={props.src} />
     </IconButton>
   );
 }

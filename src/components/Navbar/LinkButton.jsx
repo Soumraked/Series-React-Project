@@ -6,16 +6,16 @@ import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   title: {
-    marginRight: 10,
+    marginRight: 30,
     display: "none",
-    [theme.breakpoints.up("sm")]: {
+    [theme.breakpoints.up("md")]: {
       display: "block",
     },
   },
   LastTitle: {
     flexGrow: 1,
     display: "none",
-    [theme.breakpoints.up("sm")]: {
+    [theme.breakpoints.up("md")]: {
       display: "block",
     },
   },
