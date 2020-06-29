@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 
-import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import List from "@material-ui/core/List";
@@ -15,7 +15,6 @@ import { Link } from "react-router-dom";
 
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import HomeIcon from "@material-ui/icons/Home";
 import VideoLibraryIcon from "@material-ui/icons/VideoLibrary";
 import MovieIcon from "@material-ui/icons/Movie";
@@ -47,8 +46,30 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function PersistentDrawerLeft() {
+  //Function hide drawer with click outside
+  function useOutside(ref) {
+    useEffect(() => {
+      function handleClickOutside(event) {
+        if (ref.current && !ref.current.contains(event.target)) {
+          handleDrawerClose();
+        }
+      }
+      // Bind the event listener
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => {
+        // Unbind the event listener on clean up
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }, [ref]);
+  }
+  // En function
+
+  //Vars Function hide drawer
+  const wrapperRef = useRef(null);
+  useOutside(wrapperRef);
+  // End vars
+
   const classes = useStyles();
-  const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
   const handleDrawerOpen = () => {
@@ -60,7 +81,7 @@ export default function PersistentDrawerLeft() {
   };
 
   return (
-    <div className={classes.root}>
+    <div className={classes.root} ref={wrapperRef}>
       <CssBaseline />
       <IconButton
         color="inherit"
@@ -81,37 +102,50 @@ export default function PersistentDrawerLeft() {
       >
         <div className={classes.drawerHeader}>
           <IconButton onClick={handleDrawerClose}>
-            {theme.direction === "ltr" ? (
-              <ChevronLeftIcon />
-            ) : (
-              <ChevronRightIcon />
-            )}
+            <ChevronLeftIcon />
           </IconButton>
         </div>
         <Divider />
+        {/* Navegation */}
         <List>
-          <ListItem button component={Link} to="/">
+          <ListItem onClick={handleDrawerClose} button component={Link} to="/">
             <ListItemIcon>
               <HomeIcon />
             </ListItemIcon>
             <ListItemText primary="Inicio" />
           </ListItem>
-          <ListItem button component={Link} to="/series">
+          <ListItem
+            onClick={handleDrawerClose}
+            button
+            component={Link}
+            to="/series"
+          >
             <ListItemIcon>
               <VideoLibraryIcon />
             </ListItemIcon>
             <ListItemText primary="Series" />
           </ListItem>
-          <ListItem button component={Link} to="/peliculas">
+          <ListItem
+            onClick={handleDrawerClose}
+            button
+            component={Link}
+            to="/peliculas"
+          >
             <ListItemIcon>
               <MovieIcon />
             </ListItemIcon>
             <ListItemText primary="Películas" />
           </ListItem>
         </List>
+        {/*  End navegation */}
         <Divider />
         <List>
-          <ListItem button component={Link} to="/configuracion">
+          <ListItem
+            onClick={handleDrawerClose}
+            button
+            component={Link}
+            to="/configuracion"
+          >
             <ListItemIcon>
               <SettingsIcon />
             </ListItemIcon>
