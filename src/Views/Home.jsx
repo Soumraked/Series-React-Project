@@ -1,7 +1,12 @@
 import React from "react";
+import Series from "../components/Series";
 
 function Home() {
-  return <h1>Inicio</h1>;
+  return (
+    <div>
+      <Series />
+    </div>
+  );
 }
 
 export default Home;
