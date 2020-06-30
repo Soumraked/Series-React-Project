@@ -10,6 +10,7 @@ import Chip from "@material-ui/core/Chip";
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 290,
+    minWidth: 150,
     // [theme.breakpoints.down("sm")]: {
     //   display: "none",
     // },

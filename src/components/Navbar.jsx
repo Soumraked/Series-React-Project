@@ -31,7 +31,7 @@ function Navbar() {
   return (
     <div className={classes.root}>
       <AppBar position="static" color="default">
-        <Container maxWidth="lg">
+        <Container maxWidth="lg" disableGutters>
           <Toolbar>
             <Drawer />
             <LinkButton name="Kooga" route="/" strong={true} />

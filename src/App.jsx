@@ -16,6 +16,7 @@ import Container from "@material-ui/core/Container";
 
 //Import components
 import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 // End import
 
 //Import Views
@@ -61,6 +62,7 @@ function App() {
               <Route exact path="/configuracion" component={Settings}></Route>
             </Switch>
           </Container>
+          <Footer />
         </Router>
       </ThemeProvider>
     </Provider>
