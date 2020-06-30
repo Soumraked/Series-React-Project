@@ -37,7 +37,8 @@ function Navbar() {
             <LinkButton name="Kooga" route="/" strong={true} />
             <LinkButton name="Inicio" route="/" />
             <LinkButton name="Series" route="/series" />
-            <LinkButton name="Películas" route="/peliculas" class="end" />
+            <LinkButton name="Películas" route="/peliculas" />
+            <LinkButton class="end" />
             <Search />
             <Avatar
               src="https://firebasestorage.googleapis.com/v0/b/monosotakos.appspot.com/o/nekoAvatar.jpg?alt=media"

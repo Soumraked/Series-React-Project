@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 
 import Typography from "@material-ui/core/Typography";
 import makeStyles from "@material-ui/core/styles/makeStyles";
@@ -23,19 +23,28 @@ const useStyles = makeStyles((theme) => ({
 
 const LinkButton = (props) => {
   const classes = useStyles();
-  const selection = props.class === "end" ? classes.LastTitle : classes.title;
 
   return (
-    <Typography
-      className={selection}
-      variant="h6"
-      noWrap
-      component={Link}
-      to={props.route}
-      style={{ textDecoration: "none", color: "inherit" }}
-    >
-      {props.strong ? <strong> {props.name}</strong> : <p>{props.name}</p>}
-    </Typography>
+    <Fragment>
+      {props.class ? (
+        <Typography
+          className={classes.LastTitle}
+          variant="h6"
+          noWrap
+        ></Typography>
+      ) : (
+        <Typography
+          className={classes.title}
+          variant="h6"
+          noWrap
+          component={Link}
+          to={props.route}
+          style={{ textDecoration: "none", color: "inherit" }}
+        >
+          {props.strong ? <strong> {props.name}</strong> : <p>{props.name}</p>}
+        </Typography>
+      )}
+    </Fragment>
   );
 };
 
