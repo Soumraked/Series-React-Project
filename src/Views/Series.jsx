@@ -1,7 +1,9 @@
 import React from "react";
 
+import SeriesData from "../components/Series";
+
 function Series() {
-  return <h1>Series</h1>;
+  return <SeriesData />;
 }
 
 export default Series;

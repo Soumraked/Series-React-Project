@@ -10,7 +10,7 @@ import Card from "./LastChapters/CardChapter";
 const Series = (props) => {
   const dispatch = useDispatch();
 
-  const series = useSelector((store) => store.series.array);
+  const series = useSelector((store) => store.series.lastChapter);
 
   React.useEffect(() => {
     const obtenerInfo = () => {

@@ -2,11 +2,7 @@ import React from "react";
 import Series from "../components/LastChapters";
 
 function Home() {
-  return (
-    <div>
-      <Series />
-    </div>
-  );
+  return <Series />;
 }
 
 export default Home;
