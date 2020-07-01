@@ -40,12 +40,15 @@ const useStyles = makeStyles((theme) => ({
 
 function ImgMediaCard(props) {
   const classes = useStyles();
-  const title = props.name + " - " + props.num;
 
   return (
     <Card className={classes.root}>
       <CardActionArea>
-        <CardMedia className={classes.media} image={props.img} title={title} />
+        <CardMedia
+          className={classes.media}
+          image={props.img}
+          title={props.name}
+        />
         <Chip
           className={classes.number}
           color="secondary"

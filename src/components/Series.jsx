@@ -82,9 +82,18 @@ function Series(props) {
             style={{ display: "inline-block" }}
             count={Math.ceil(series.length / max)}
             variant="outlined"
-            color="primary"
+            color="secondary"
             page={page}
             onChange={handleChange}
+            siblingCount={
+              props.width === "xs"
+                ? 0
+                : props.width === "sm"
+                ? 3
+                : props.width === "md"
+                ? 6
+                : 12
+            }
           />
         </div>
       </Fragment>

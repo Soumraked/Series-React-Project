@@ -1,41 +1,39 @@
 import React from "react";
 
 import Container from "@material-ui/core/Container";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
-import makeStyles from "@material-ui/core/styles/makeStyles";
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
+import withWidth from "@material-ui/core/withWidth";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-    paddingTop: 30,
-    position: "static",
-    bottom: 0,
-  },
-  typo: {
-    textAlign: "center",
-    flexGrow: 1,
-  },
-}));
-
-function WithTheme() {
-  const classes = useStyles();
-
+function WithTheme(props) {
   return (
-    <div className={classes.root}>
-      <AppBar position="static" color="default">
-        <Container maxWidth="lg" disableGutters>
-          <Toolbar>
-            <Typography className={classes.typo} variant="subtitle1">
+    <div style={{ position: "relative", minHeight: "15vh" }}>
+      <Card
+        style={{
+          //absolute
+          //fixed
+          position: "absolute",
+          bottom: 0,
+          width: "100%",
+          height: "auto",
+        }}
+      >
+        <CardContent>
+          <Container maxWidth="lg" disableGutters>
+            <Typography
+              style={{ textAlign: "center" }}
+              variant={props.width === "xs" ? "caption" : "subtitle1"}
+              component="div"
+            >
               Kooga - Ningún vídeo se encuentra alojado en nuestros servidores.
               © 2020
             </Typography>
-          </Toolbar>
-        </Container>
-      </AppBar>
+          </Container>
+        </CardContent>
+      </Card>
     </div>
   );
 }
 
-export default WithTheme;
+export default withWidth()(WithTheme);
