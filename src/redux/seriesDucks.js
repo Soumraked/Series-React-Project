@@ -4,11 +4,13 @@ import axios from "axios";
 const dataInitial = {
   lastChapter: [],
   seriesData: [],
+  details: {},
 };
 
 //Types
 const GET_SERIES = "GET_SERIES";
 const GET_ALL_SERIES = "GET_ALL_SERIES";
+const GET_DETAILS = "GET_DETAILS";
 
 //Reducer
 export default function seriesReducer(state = dataInitial, action) {
@@ -17,6 +19,8 @@ export default function seriesReducer(state = dataInitial, action) {
       return { ...state, lastChapter: action.payload };
     case GET_ALL_SERIES:
       return { ...state, seriesData: action.payload };
+    case GET_DETAILS:
+      return { ...state, details: action.payload };
     default:
       return state;
   }
@@ -44,6 +48,20 @@ export const getAllSeries = () => async (dispatch, getState) => {
     );
     dispatch({
       type: GET_ALL_SERIES,
+      payload: res.data,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getDetails = (id) => async (dispatch, getState) => {
+  try {
+    const res = await axios.get(
+      `https://us-central1-monosotakos.cloudfunctions.net/api/getApi/getSerie/${id}`
+    );
+    dispatch({
+      type: GET_DETAILS,
       payload: res.data,
     });
   } catch (error) {

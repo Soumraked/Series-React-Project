@@ -24,6 +24,8 @@ import Home from "./Views/Home";
 import Series from "./Views/Series";
 import Movies from "./Views/Movies";
 import Settings from "./Views/Settings";
+import SerieDetails from "./Views/SerieDetails";
+import Error from "./Views/Error";
 // End import
 
 // Store
@@ -60,6 +62,8 @@ function App() {
               <Route exact path="/series" component={Series}></Route>
               <Route exact path="/peliculas" component={Movies}></Route>
               <Route exact path="/configuracion" component={Settings}></Route>
+              <Route exact path="/series/:id" component={SerieDetails}></Route>
+              <Route component={Error}></Route>
             </Switch>
           </Container>
           <Footer />
