@@ -28,6 +28,8 @@ const SerieDetails = () => {
       date={details.date}
       status={details.status}
       sub={details.subtitles}
+      type={details.type}
+      chapter={details.chapter}
     />
   );
 };
