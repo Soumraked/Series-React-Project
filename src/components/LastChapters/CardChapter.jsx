@@ -7,6 +7,8 @@ import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
 import Chip from "@material-ui/core/Chip";
 
+import { Link } from "react-router-dom";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 290,
@@ -48,7 +50,11 @@ function ImgMediaCard(props) {
   const title = props.name + " - " + props.num;
 
   return (
-    <Card className={classes.root}>
+    <Card
+      className={classes.root}
+      component={Link}
+      to={`/series/${props.id}/${props.num}`}
+    >
       <CardActionArea>
         <CardMedia className={classes.media} image={props.img} title={title} />
         <Chip

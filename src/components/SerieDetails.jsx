@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getDetails } from "../redux/seriesDucks";
@@ -19,18 +19,24 @@ const SerieDetails = () => {
     obtenerInfo();
   }, [dispatch, id]);
   return (
-    <Details
-      cover={details.cover}
-      img={details.thumbnail}
-      name={details.name}
-      desc={details.description}
-      genres={details.genres}
-      date={details.date}
-      status={details.status}
-      sub={details.subtitles}
-      type={details.type}
-      chapter={details.chapter}
-    />
+    <Fragment>
+      {details.name && (
+        <Details
+          cover={details.cover}
+          img={details.thumbnail}
+          name={details.name}
+          desc={details.description}
+          genres={details.genres}
+          date={details.date}
+          status={details.status}
+          sub={details.subtitles}
+          type={details.type}
+          chapter={details.chapter}
+          id={id}
+        />
+      )}
+      {!details.name && <h1>Page not found</h1>}
+    </Fragment>
   );
 };
 

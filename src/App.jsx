@@ -25,6 +25,7 @@ import Series from "./Views/Series";
 import Movies from "./Views/Movies";
 import Settings from "./Views/Settings";
 import SerieDetails from "./Views/SerieDetails";
+import Chapter from "./Views/Chapter";
 import Error from "./Views/Error";
 // End import
 
@@ -63,6 +64,7 @@ function App() {
               <Route exact path="/peliculas" component={Movies}></Route>
               <Route exact path="/configuracion" component={Settings}></Route>
               <Route exact path="/series/:id" component={SerieDetails}></Route>
+              <Route exact path="/series/:id/:num" component={Chapter}></Route>
               <Route component={Error}></Route>
             </Switch>
           </Container>

@@ -18,6 +18,8 @@ import ListItemText from "@material-ui/core/ListItemText";
 
 import PlayCircleFilledRoundedIcon from "@material-ui/icons/PlayCircleFilledRounded";
 
+import { Link } from "react-router-dom";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: "100%",
@@ -69,13 +71,6 @@ const useStyles = makeStyles((theme) => ({
     overflow: "auto",
     maxHeight: 300,
   },
-  listSection: {
-    backgroundColor: "inherit",
-  },
-  ul: {
-    backgroundColor: "inherit",
-    padding: 0,
-  },
 }));
 
 const Details = ({
@@ -90,6 +85,7 @@ const Details = ({
   type,
   sub,
   chapter,
+  id,
 }) => {
   const classes = useStyles();
   return (
@@ -193,7 +189,12 @@ const Details = ({
               <List className={classes.rootList}>
                 {chapter &&
                   chapter.map((item) => (
-                    <ListItem button key={item.number}>
+                    <ListItem
+                      button
+                      key={item.number}
+                      component={Link}
+                      to={`/series/${id}/${item.number}`}
+                    >
                       <PlayCircleFilledRoundedIcon style={{ marginRight: 5 }} />
                       <ListItemText
                         primary={`${name} ${

@@ -106,7 +106,7 @@ export default function PersistentDrawerLeft() {
           </IconButton>
         </div>
         <Divider />
-        {/* Navegation */}
+        {/* Navigation */}
         <List>
           <ListItem onClick={handleDrawerClose} button component={Link} to="/">
             <ListItemIcon>

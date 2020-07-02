@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 200,
     minWidth: 150,
-
+    textDecoration: "none",
     // [theme.breakpoints.down("sm")]: {
     //   display: "none",
     // },
