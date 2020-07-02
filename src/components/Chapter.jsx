@@ -9,20 +9,33 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
+import withWidth from "@material-ui/core/withWidth";
 
 import Video from "./Chapter/Video";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: "100%",
   },
   video: {
-    height: "auto",
+    marginLeft: "auto",
+    marginRight: "auto",
+    // height: "auto",
     padding: 30,
+    width: 920,
+    [theme.breakpoints.down("md")]: {
+      width: 770,
+    },
+    [theme.breakpoints.down("sm")]: {
+      maxWidth: 690,
+      width: "auto",
+      marginLeft: 0,
+      marginRight: 0,
+    },
   },
-});
+}));
 
-function Chapter() {
+function Chapter(props) {
   const classes = useStyles();
 
   const id = useParams().id;
@@ -46,7 +59,13 @@ function Chapter() {
         <CardContent style={{ padding: 0, marginTop: 20 }}>
           <Typography
             gutterBottom
-            variant="h4"
+            variant={
+              props.width === "sm"
+                ? "h6"
+                : props.width === "xs"
+                ? "body1"
+                : "h4"
+            }
             component="h4"
             align="center"
             style={{ margin: 0 }}
@@ -72,4 +91,4 @@ function Chapter() {
   );
 }
 
-export default Chapter;
+export default withWidth()(Chapter);
