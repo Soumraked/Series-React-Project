@@ -50,11 +50,19 @@ function App() {
   });
   const handleThemeChange = () => {
     setThemeState(!themeState);
+    localStorage.theme = !themeState ? "dark" : "light";
   };
 
   React.useEffect(() => {
     const obtenerInfo = () => {
-      setThemeState(prefersDarkMode ? true : false);
+      if (localStorage.theme === "dark") {
+        setThemeState(true);
+      } else if (localStorage.theme === "light") {
+        setThemeState(false);
+      } else {
+        setThemeState(prefersDarkMode ? true : false);
+        localStorage.theme = prefersDarkMode ? "dark" : "light";
+      }
     };
     obtenerInfo();
   }, [prefersDarkMode, setThemeState]);

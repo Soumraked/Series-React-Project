@@ -17,9 +17,9 @@ import Avatar from "./SubComponents/Avatar";
 import Drawer from "./SubComponents/DrawerNavbar";
 // End import
 
-import Switch from "@material-ui/core/Switch";
-import Moon from "@material-ui/icons/Brightness3";
+import Moon from "@material-ui/icons/Brightness4";
 import Sun from "@material-ui/icons/Brightness7";
+import IconButton from "@material-ui/core/IconButton";
 
 //Style Navbar
 const useStyles = makeStyles((theme) => ({
@@ -27,9 +27,11 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   theme: {
-    [theme.breakpoints.down("sm")]: {
-      display: "none",
-    },
+    padding: 10,
+    margin: 0,
+    // [theme.breakpoints.down("xs")]: {
+    //   display: "none",
+    // },
   },
 }));
 // End Style
@@ -52,15 +54,16 @@ function Navbar({ themeState, handleThemeChange }) {
             <LinkButton name="Películas" route="/peliculas" />
             <LinkButton class="end" />
 
-            <Sun className={classes.theme} />
-            <Switch
-              checked={themeState}
-              onClick={handleThemeChange}
-              className={classes.theme}
-            />
-            <Moon className={classes.theme} />
-
             <Search />
+            <IconButton
+              edge="end"
+              className={classes.theme}
+              color="inherit"
+              aria-label="open drawer"
+              onClick={handleThemeChange}
+            >
+              {themeState ? <Moon /> : <Sun />}
+            </IconButton>
             <Avatar
               src="https://firebasestorage.googleapis.com/v0/b/monosotakos.appspot.com/o/nekoAvatar.jpg?alt=media"
               alt="Kooga"
