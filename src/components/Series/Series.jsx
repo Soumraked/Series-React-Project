@@ -1,14 +1,14 @@
 import React, { Fragment } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
-import { getAllSeries } from "../redux/seriesDucks";
+import { getAllSeries } from "../../redux/seriesDucks";
 import Grid from "@material-ui/core/Grid";
 import withWidth from "@material-ui/core/withWidth";
 import Pagination from "@material-ui/lab/Pagination";
 import { makeStyles } from "@material-ui/core/styles";
 
-import Card from "./Series/CardSerie";
-import Skeleton from "./Series/CardSkeleton";
+import Card from "./SubComponents/CardSerie";
+import Skeleton from "./SubComponents/CardSkeleton";
 
 const useStyles = makeStyles((theme) => ({
   root: {

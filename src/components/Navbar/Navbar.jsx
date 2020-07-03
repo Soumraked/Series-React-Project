@@ -11,10 +11,10 @@ import Container from "@material-ui/core/Container";
 // End import
 
 //Components
-import LinkButton from "./Navbar/LinkButton";
-import Search from "./Navbar/Search";
-import Avatar from "./Navbar/Avatar";
-import Drawer from "./Navbar/DrawerNavbar";
+import LinkButton from "./SubComponents/LinkButton";
+import Search from "./SubComponents/Search";
+import Avatar from "./SubComponents/Avatar";
+import Drawer from "./SubComponents/DrawerNavbar";
 // End import
 
 import Switch from "@material-ui/core/Switch";

@@ -1,11 +1,11 @@
 import React, { Fragment } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getDetails, cleanDetails } from "../redux/seriesDucks";
+import { getDetails, cleanDetails } from "../../redux/seriesDucks";
 
-import Details from "./SerieDetails/Details";
-import Skeleton from "./SerieDetails/DetailsSkeleton";
-import Error from "../Views/Error";
+import Details from "./SubComponents/Details";
+import Skeleton from "./SubComponents/DetailsSkeleton";
+import Error from "../../Views/Error";
 
 const SerieDetails = () => {
   const id = useParams().id;

@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getChapter, cleanChapter } from "../redux/seriesDucks";
+import { getChapter, cleanChapter } from "../../redux/seriesDucks";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
@@ -12,9 +12,11 @@ import Typography from "@material-ui/core/Typography";
 import withWidth from "@material-ui/core/withWidth";
 
 import Skeleton from "@material-ui/lab/Skeleton";
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
 
-import Video from "./Chapter/Video";
-import Error from "../Views/Error";
+import Video from "./SubComponents/Video";
+import Error from "../../Views/Error";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -55,8 +57,32 @@ function Chapter(props) {
     };
     obtenerInfo();
   }, [dispatch, id, num]);
+
+  const [error, setError] = useState(false);
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setError(false);
+  };
+
+  window.onerror = function (error) {
+    setError(true);
+  };
+
+  const Alert = (props) => {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+  };
+
   return (
     <div style={{ paddingTop: 20 }}>
+      <Snackbar open={error} autoHideDuration={10000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="error">
+          El episodio seleccionado no se encuentra disponible, deja un reporte
+          para solucionar este problema a la brevedad.
+        </Alert>
+      </Snackbar>
       {chapter.error ? (
         <Error />
       ) : (

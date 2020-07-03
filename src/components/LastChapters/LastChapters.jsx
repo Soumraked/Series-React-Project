@@ -1,12 +1,12 @@
 import React, { Fragment } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
-import { getSeries } from "../redux/seriesDucks";
+import { getSeries } from "../../redux/seriesDucks";
 import Grid from "@material-ui/core/Grid";
 import withWidth from "@material-ui/core/withWidth";
 
-import Card from "./LastChapters/CardChapter";
-import Skeleton from "./LastChapters/cardSkeleton";
+import Card from "./SubComponents/CardChapter";
+import Skeleton from "./SubComponents/cardSkeleton";
 
 const Series = (props) => {
   var skeleton = [];
