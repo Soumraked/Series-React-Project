@@ -69,8 +69,19 @@ export const getDetails = (id) => async (dispatch, getState) => {
       payload: res.data,
     });
   } catch (error) {
+    dispatch({
+      type: GET_DETAILS,
+      payload: { error: "Ha ocurrido un error." },
+    });
     console.log(error);
   }
+};
+
+export const cleanDetails = () => (dispatch, getState) => {
+  dispatch({
+    type: GET_DETAILS,
+    payload: {},
+  });
 };
 
 export const getChapter = (id, num) => async (dispatch, getState) => {
@@ -83,6 +94,10 @@ export const getChapter = (id, num) => async (dispatch, getState) => {
       payload: res.data,
     });
   } catch (error) {
+    dispatch({
+      type: GET_CHAPTER,
+      payload: { error: "Ha ocurrido un error." },
+    });
     console.log(error);
   }
 };

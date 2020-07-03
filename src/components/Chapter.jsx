@@ -11,7 +11,10 @@ import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
 import withWidth from "@material-ui/core/withWidth";
 
+import Skeleton from "@material-ui/lab/Skeleton";
+
 import Video from "./Chapter/Video";
+import Error from "../Views/Error";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -47,46 +50,57 @@ function Chapter(props) {
 
   React.useEffect(() => {
     const obtenerInfo = () => {
-      dispatch(getChapter(id, num));
       dispatch(cleanChapter());
+      dispatch(getChapter(id, num));
     };
     obtenerInfo();
   }, [dispatch, id, num]);
-
   return (
     <div style={{ paddingTop: 20 }}>
-      <Card className={classes.root}>
-        <CardContent style={{ padding: 0, marginTop: 20 }}>
-          <Typography
-            gutterBottom
-            variant={
-              props.width === "sm"
-                ? "h6"
-                : props.width === "xs"
-                ? "body1"
-                : "h4"
-            }
-            component="h4"
-            align="center"
-            style={{ margin: 0 }}
+      {chapter.error ? (
+        <Error />
+      ) : (
+        <Card className={classes.root}>
+          <CardContent style={{ padding: 0, marginTop: 20 }}>
+            <Typography
+              gutterBottom
+              variant={
+                props.width === "sm"
+                  ? "h6"
+                  : props.width === "xs"
+                  ? "body1"
+                  : "h4"
+              }
+              component="h4"
+              align="center"
+              style={{ margin: 0 }}
+            >
+              {chapter.name ? (
+                <strong>{chapter.name + " " + num}</strong>
+              ) : (
+                <Skeleton
+                  align="center"
+                  style={{ margin: 0, marginLeft: "auto", marginRight: "auto" }}
+                  width="50%"
+                />
+              )}
+            </Typography>
+          </CardContent>
+          <CardMedia
+            className={classes.video}
+            title={chapter.name}
+            component="div"
           >
-            <strong>{chapter.name + " " + num}</strong>
-          </Typography>
-        </CardContent>
-        <CardMedia
-          className={classes.video}
-          title={chapter.name}
-          component="div"
-        >
-          {chapter.link && <Video link={chapter.link} />}
-        </CardMedia>
+            {chapter.link && <Video link={chapter.link} />}
+          </CardMedia>
 
-        <CardContent>
-          <Typography variant="body2" color="textSecondary" component="p">
-            Pagination, Comments, etc ...
-          </Typography>
-        </CardContent>
-      </Card>
+          <CardContent>
+            <Typography variant="body2" color="textSecondary" component="p">
+              Pagination, Comments, etc ...
+            </Typography>
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 }

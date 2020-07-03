@@ -8,6 +8,7 @@ import Pagination from "@material-ui/lab/Pagination";
 import { makeStyles } from "@material-ui/core/styles";
 
 import Card from "./Series/CardSerie";
+import Skeleton from "./Series/CardSkeleton";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,6 +22,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Series(props) {
+  var skeleton = [];
+  for (var i = 0; i < 24; i++) {
+    skeleton.push(i);
+  }
+
   const classes = useStyles();
 
   const dispatch = useDispatch();
@@ -60,23 +66,38 @@ function Series(props) {
   return (
     <div style={{ paddingTop: 20 }}>
       <Fragment>
-        <Grid container spacing={3}>
-          {seriesSection.map((item) => (
-            <Grid
-              item
-              xs={props.width === "xs" ? 6 : props.width === "sm" ? 3 : 2}
-              key={item.id}
-            >
-              <Card
-                name={item.name}
-                id={item.id}
-                type={item.type}
-                year={item.year}
-                img={item.image}
-              />
-            </Grid>
-          ))}
-        </Grid>
+        {seriesSection.length > 0 ? (
+          <Grid container spacing={3}>
+            {seriesSection.map((item) => (
+              <Grid
+                item
+                xs={props.width === "xs" ? 6 : props.width === "sm" ? 3 : 2}
+                key={item.id}
+              >
+                <Card
+                  name={item.name}
+                  id={item.id}
+                  type={item.type}
+                  year={item.year}
+                  img={item.image}
+                />
+              </Grid>
+            ))}
+          </Grid>
+        ) : (
+          <Grid container spacing={3}>
+            {skeleton.map((item) => (
+              <Grid
+                item
+                xs={props.width === "xs" ? 6 : props.width === "sm" ? 3 : 2}
+                key={item}
+              >
+                <Skeleton />
+              </Grid>
+            ))}
+          </Grid>
+        )}
+
         <div className={classes.root} style={{ textAlign: "center" }}>
           <Pagination
             style={{ display: "inline-block" }}

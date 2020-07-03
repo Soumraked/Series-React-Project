@@ -61,7 +61,15 @@ function Video(props) {
   };
 
   var optionsResponsive = {
-    controls: ["play", "progress", "mute", "volume", "settings", "fullscreen"],
+    controls: [
+      "play",
+      "progress",
+      "current-time",
+      "mute",
+      "volume",
+      "settings",
+      "fullscreen",
+    ],
     i18n: {
       restart: "Restart",
       rewind: "Rewind {seektime}s",
