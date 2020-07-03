@@ -29,9 +29,6 @@ const useStyles = makeStyles((theme) => ({
   theme: {
     padding: 10,
     margin: 0,
-    // [theme.breakpoints.down("xs")]: {
-    //   display: "none",
-    // },
   },
 }));
 // End Style

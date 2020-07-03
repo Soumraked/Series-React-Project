@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 
 import SearchIcon from "@material-ui/icons/Search";
-import InputBase from "@material-ui/core/InputBase";
 import { fade, makeStyles } from "@material-ui/core/styles";
+import SearchNames from "./SearchNames";
+import IconButton from "@material-ui/core/IconButton";
 
 const useStyles = makeStyles((theme) => ({
   search: {
@@ -44,25 +45,35 @@ const useStyles = makeStyles((theme) => ({
       },
     },
   },
+  theme: {
+    padding: 10,
+    margin: 0,
+  },
 }));
 
 function Search() {
   const classes = useStyles();
 
+  const [open, setOpen] = useState(false);
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+
   return (
-    <div className={classes.search}>
-      <div className={classes.searchIcon}>
+    <React.Fragment>
+      <IconButton
+        edge="end"
+        className={classes.theme}
+        color="inherit"
+        aria-label="open drawer"
+        onClick={handleClick}
+      >
         <SearchIcon />
-      </div>
-      <InputBase
-        placeholder="Buscar"
-        classes={{
-          root: classes.inputRoot,
-          input: classes.inputInput,
-        }}
-        inputProps={{ "aria-label": "search" }}
-      />
-    </div>
+      </IconButton>
+
+      <SearchNames open={open} setOpen={setOpen} />
+    </React.Fragment>
   );
 }
 

@@ -112,11 +112,7 @@ function Chapter(props) {
               )}
             </Typography>
           </CardContent>
-          <CardMedia
-            className={classes.video}
-            title={chapter.name}
-            component="div"
-          >
+          <CardMedia className={classes.video} component="div">
             {chapter.link && <Video link={chapter.link} />}
           </CardMedia>
 

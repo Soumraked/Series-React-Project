@@ -6,6 +6,7 @@ const dataInitial = {
   seriesData: [],
   details: {},
   chapter: {},
+  names: {},
 };
 
 //Types
@@ -13,6 +14,7 @@ const GET_SERIES = "GET_SERIES";
 const GET_ALL_SERIES = "GET_ALL_SERIES";
 const GET_DETAILS = "GET_DETAILS";
 const GET_CHAPTER = "GET_CHAPTER";
+const GET_SEARCH = "GET_SEARCH";
 
 //Reducer
 export default function seriesReducer(state = dataInitial, action) {
@@ -25,6 +27,8 @@ export default function seriesReducer(state = dataInitial, action) {
       return { ...state, details: action.payload };
     case GET_CHAPTER:
       return { ...state, chapter: action.payload };
+    case GET_SEARCH:
+      return { ...state, names: action.payload };
     default:
       return state;
   }
@@ -107,4 +111,18 @@ export const cleanChapter = () => (dispatch, getState) => {
     type: GET_CHAPTER,
     payload: {},
   });
+};
+
+export const getSearch = () => async (dispatch, getState) => {
+  try {
+    const res = await axios.get(
+      `https://us-central1-monosotakos.cloudfunctions.net/api/serie/name`
+    );
+    dispatch({
+      type: GET_SEARCH,
+      payload: res.data,
+    });
+  } catch (error) {
+    console.log(error);
+  }
 };
