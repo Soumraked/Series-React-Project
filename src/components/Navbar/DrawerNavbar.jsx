@@ -20,6 +20,10 @@ import VideoLibraryIcon from "@material-ui/icons/VideoLibrary";
 import MovieIcon from "@material-ui/icons/Movie";
 import SettingsIcon from "@material-ui/icons/Settings";
 
+import Switch from "@material-ui/core/Switch";
+import Moon from "@material-ui/icons/Brightness3";
+import Sun from "@material-ui/icons/Brightness7";
+
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -45,7 +49,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function PersistentDrawerLeft() {
+export default function PersistentDrawerLeft({
+  themeState,
+  handleThemeChange,
+}) {
   //Function hide drawer with click outside
   function useOutside(ref) {
     useEffect(() => {
@@ -152,6 +159,15 @@ export default function PersistentDrawerLeft() {
             <ListItemText primary="Configuración" />
           </ListItem>
         </List>
+        <Divider />
+        <List>
+          <ListItem>
+            <Sun />
+            <Switch checked={themeState} onClick={handleThemeChange} />
+            <Moon />
+          </ListItem>
+        </List>
+        <Divider />
       </Drawer>
     </div>
   );

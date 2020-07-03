@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 //Dark mode
 import useMediaQuery from "@material-ui/core/useMediaQuery";
@@ -41,22 +41,34 @@ function App() {
 
   //Dark theme
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
-  const theme = React.useMemo(
-    () =>
-      createMuiTheme({
-        palette: {
-          type: prefersDarkMode ? "dark" : "light",
-        },
-      }),
-    [prefersDarkMode]
-  );
+  const [themeState, setThemeState] = useState(false);
+  const palletType = themeState ? "dark" : "light";
+  const theme = createMuiTheme({
+    palette: {
+      type: palletType,
+    },
+  });
+  const handleThemeChange = () => {
+    setThemeState(!themeState);
+  };
+
+  React.useEffect(() => {
+    const obtenerInfo = () => {
+      setThemeState(prefersDarkMode ? true : false);
+    };
+    obtenerInfo();
+  }, [prefersDarkMode, setThemeState]);
+
   // End theme
   return (
     <Provider store={store}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Router>
-          <Navbar />
+          <Navbar
+            themeState={themeState}
+            handleThemeChange={handleThemeChange}
+          />
           <Container maxWidth="lg">
             <Switch>
               <Route exact path="/" component={Home}></Route>
