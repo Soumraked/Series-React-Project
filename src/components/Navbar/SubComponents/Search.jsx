@@ -62,6 +62,7 @@ function Search() {
 
   return (
     <React.Fragment>
+      <div style={{ flexGrow: 1 }}></div>
       <IconButton
         edge="end"
         className={classes.theme}
