@@ -61,7 +61,7 @@ function App() {
         setThemeState(false);
       } else {
         setThemeState(prefersDarkMode ? true : false);
-        localStorage.theme = prefersDarkMode ? "dark" : "light";
+        localStorage.theme = prefersDarkMode ? "light" : "dark";
       }
     };
     obtenerInfo();

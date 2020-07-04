@@ -74,39 +74,41 @@ function SimpleDialog(props) {
   };
 
   return (
-    <Dialog
-      onClose={handleClose}
-      aria-labelledby="simple-dialog-title"
-      open={open}
-    >
-      <DialogTitle id="simple-dialog-title">Ingresa tu búsqueda</DialogTitle>
-      <InputBase
-        value={search}
-        onChange={handleChange}
-        placeholder="Buscar"
-        classes={{
-          root: classes.inputRoot,
-          input: classes.inputInput,
-        }}
-        inputProps={{ "aria-label": "search" }}
-      />
-      <List>
-        {options.map((item) => (
-          <ListItem
-            button
-            onClick={() => handleListItemClick(item)}
-            key={item}
-            component={Link}
-            to={`/series/${item}`}
-          >
-            <ListItemAvatar>
-              <Avatar src={names[item].image} alt={names[item].name} />
-            </ListItemAvatar>
-            <ListItemText primary={names[item].name} />
-          </ListItem>
-        ))}
-      </List>
-    </Dialog>
+    <div>
+      <Dialog
+        onClose={handleClose}
+        aria-labelledby="simple-dialog-title"
+        open={open}
+      >
+        <DialogTitle id="simple-dialog-title">Ingresa tu búsqueda</DialogTitle>
+        <InputBase
+          value={search}
+          onChange={handleChange}
+          placeholder="Buscar"
+          classes={{
+            root: classes.inputRoot,
+            input: classes.inputInput,
+          }}
+          inputProps={{ "aria-label": "search" }}
+        />
+        <List>
+          {options.map((item) => (
+            <ListItem
+              button
+              onClick={() => handleListItemClick(item)}
+              key={item}
+              component={Link}
+              to={`/series/${item}`}
+            >
+              <ListItemAvatar>
+                <Avatar src={names[item].image} alt={names[item].name} />
+              </ListItemAvatar>
+              <ListItemText primary={names[item].name} />
+            </ListItem>
+          ))}
+        </List>
+      </Dialog>
+    </div>
   );
 }
 
