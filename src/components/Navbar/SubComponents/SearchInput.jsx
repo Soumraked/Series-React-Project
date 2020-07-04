@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { fade, makeStyles } from "@material-ui/core/styles";
 import Avatar from "@material-ui/core/Avatar";
 import List from "@material-ui/core/List";
@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
     },
     marginLeft: 0,
     width: "100%",
-    [theme.breakpoints.up("sm")]: {
+    [theme.breakpoints.up("md")]: {
       marginLeft: theme.spacing(1),
       width: "auto",
     },
@@ -57,12 +57,30 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   root: {
+    marginTop: 10,
     width: "100%",
-    maxWidth: 360,
     backgroundColor: theme.palette.background.paper,
     position: "relative",
     overflow: "auto",
     maxHeight: 300,
+    [theme.breakpoints.down("md")]: {
+      marginLeft: theme.spacing(7),
+      width: "75%",
+    },
+    [theme.breakpoints.up("md")]: {
+      marginLeft: theme.spacing(7),
+      width: "17%",
+    },
+  },
+  large: {
+    width: theme.spacing(7),
+    height: theme.spacing(7),
+    marginRight: 7,
+  },
+  rootSearch: {
+    [theme.breakpoints.down("sm")]: {
+      flexGrow: 1,
+    },
   },
 }));
 
@@ -112,8 +130,33 @@ function SearchNames() {
     setAnchorEl(null);
   };
 
+  const handleClick = (event) => {
+    if (event.target.value.length > 0) {
+      setAnchorEl(event.currentTarget);
+    }
+  };
+
+  function useOutside(ref) {
+    useEffect(() => {
+      function handleClickOutside(event) {
+        if (ref.current && !ref.current.contains(event.target)) {
+          handleListItemClick();
+        }
+      }
+      // Bind the event listener
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => {
+        // Unbind the event listener on clean up
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }, [ref]);
+  }
+
+  const wrapperRef = useRef(null);
+  useOutside(wrapperRef);
+
   return (
-    <React.Fragment>
+    <div ref={wrapperRef} className={classes.rootSearch}>
       <div className={classes.search}>
         <div className={classes.searchIcon}>
           <SearchIcon />
@@ -121,6 +164,7 @@ function SearchNames() {
         <InputBase
           aria-describedby={id}
           value={search}
+          onClick={handleClick}
           onChange={handleChange}
           placeholder="Buscar"
           classes={{
@@ -143,15 +187,23 @@ function SearchNames() {
                 to={`/series/${item}`}
               >
                 <ListItemAvatar>
-                  <Avatar src={names[item].image} alt={names[item].name} />
+                  <Avatar
+                    src={names[item].image}
+                    alt={names[item].name}
+                    className={classes.large}
+                  />
                 </ListItemAvatar>
-                <ListItemText primary={names[item].name} />
+                <ListItemText
+                  style={{ width: "100%" }}
+                  primary={names[item].name}
+                  secondary={names[item].type}
+                />
               </ListItem>
             ))}
           </List>
         </Paper>
       </Popper>
-    </React.Fragment>
+    </div>
   );
 }
 
