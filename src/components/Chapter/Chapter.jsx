@@ -17,6 +17,7 @@ import MuiAlert from "@material-ui/lab/Alert";
 
 import Video from "./SubComponents/Video";
 import Error from "../../Views/Error";
+import Pagination from "./SubComponents/chipChapter";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,8 +35,6 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down("sm")]: {
       maxWidth: 690,
       width: "auto",
-      marginLeft: 0,
-      marginRight: 0,
     },
   },
 }));
@@ -113,13 +112,34 @@ function Chapter(props) {
             </Typography>
           </CardContent>
           <CardMedia className={classes.video} component="div">
-            {chapter.link && <Video link={chapter.link} />}
+            {chapter.link ? (
+              <Video link={chapter.link} />
+            ) : (
+              <img
+                style={{ width: "100%", heigth: "100%" }}
+                src="https://firebasestorage.googleapis.com/v0/b/monosotakos.appspot.com/o/video%2FvideoPlayNew.JPG?alt=media"
+                alt=""
+              />
+            )}
           </CardMedia>
 
           <CardContent>
-            <Typography variant="body2" color="textSecondary" component="p">
-              Pagination, Comments, etc ...
-            </Typography>
+            {chapter.chapterNP ? (
+              <Pagination
+                id={id}
+                next={chapter.chapterNP.next}
+                prev={chapter.chapterNP.prev}
+                chapters={chapter.keys}
+                num={num}
+              />
+            ) : (
+              <Skeleton
+                align="center"
+                style={{ margin: 0, marginLeft: "auto", marginRight: "auto" }}
+                width="50%"
+                height={50}
+              />
+            )}
           </CardContent>
         </Card>
       )}

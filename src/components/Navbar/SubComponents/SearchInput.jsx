@@ -12,9 +12,9 @@ import { getSearch } from "../../../redux/seriesDucks";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
-import Paper from "@material-ui/core/Paper";
 import Popper from "@material-ui/core/Popper";
 import SearchIcon from "@material-ui/icons/Search";
+//import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   search: {
@@ -85,6 +85,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function SearchNames() {
+  //let history = useHistory();
   const classes = useStyles();
 
   //Call api
@@ -99,6 +100,7 @@ function SearchNames() {
   // End call api
 
   const [search, setSearch] = useState("");
+  const [empty, setEmpty] = useState(false);
   const [options, setOptions] = useState([]);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -121,10 +123,14 @@ function SearchNames() {
         options.push(names[i].id);
       }
     }
+
+    setEmpty(options.length === 0 && name.length > 0 ? false : true);
     setOptions(options);
   };
 
   const handleListItemClick = (value) => {
+    //console.log(history.location.pathname);
+    //history.push(history.location.pathname);
     setSearch("");
     setOptions([]);
     setAnchorEl(null);
@@ -156,53 +162,67 @@ function SearchNames() {
   useOutside(wrapperRef);
 
   return (
-    <div ref={wrapperRef} className={classes.rootSearch}>
-      <div className={classes.search}>
-        <div className={classes.searchIcon}>
-          <SearchIcon />
+    <div>
+      <div className={classes.rootSearch}>
+        <div className={classes.search}>
+          <div className={classes.searchIcon}>
+            <SearchIcon />
+          </div>
+          <InputBase
+            aria-describedby={id}
+            value={search}
+            onClick={handleClick}
+            onChange={handleChange}
+            placeholder="Buscar"
+            classes={{
+              root: classes.inputRoot,
+              input: classes.inputInput,
+            }}
+            inputProps={{ "aria-label": "search" }}
+          />
         </div>
-        <InputBase
-          aria-describedby={id}
-          value={search}
-          onClick={handleClick}
-          onChange={handleChange}
-          placeholder="Buscar"
-          classes={{
-            root: classes.inputRoot,
-            input: classes.inputInput,
-          }}
-          inputProps={{ "aria-label": "search" }}
-        />
-      </div>
 
-      <Popper id={id} open={open} className={classes.root} anchorEl={anchorEl}>
-        <Paper>
+        <Popper
+          id={id}
+          open={open}
+          className={classes.root}
+          anchorEl={anchorEl}
+          ref={wrapperRef}
+        >
           <List>
-            {options.map((item) => (
-              <ListItem
-                button
-                onClick={() => handleListItemClick(item)}
-                key={item}
-                component={Link}
-                to={`/series/${item}`}
-              >
-                <ListItemAvatar>
-                  <Avatar
-                    src={names[item].image}
-                    alt={names[item].name}
-                    className={classes.large}
+            {empty ? (
+              options.map((item) => (
+                <ListItem
+                  button
+                  key={item}
+                  component={Link}
+                  to={`/series/${item}`}
+                >
+                  <ListItemAvatar>
+                    <Avatar
+                      src={names[item].image}
+                      alt={names[item].name}
+                      className={classes.large}
+                    />
+                  </ListItemAvatar>
+                  <ListItemText
+                    style={{ width: "100%" }}
+                    primary={names[item].name}
+                    secondary={names[item].type}
                   />
-                </ListItemAvatar>
+                </ListItem>
+              ))
+            ) : (
+              <ListItem button>
                 <ListItemText
                   style={{ width: "100%" }}
-                  primary={names[item].name}
-                  secondary={names[item].type}
+                  primary="No se ha encontrado resultado para la búsqueda"
                 />
               </ListItem>
-            ))}
+            )}
           </List>
-        </Paper>
-      </Popper>
+        </Popper>
+      </div>
     </div>
   );
 }

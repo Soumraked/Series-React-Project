@@ -27,7 +27,6 @@ function WithTheme(props) {
               component="div"
             >
               Kooga - Ningún vídeo se encuentra alojado en nuestros servidores.
-              © 2020
             </Typography>
           </Container>
         </CardContent>
