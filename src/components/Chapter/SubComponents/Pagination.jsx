@@ -9,7 +9,6 @@ function PaginationLink({ chapters, id, num, width }) {
   const [page, setPage] = useState(chapters.indexOf(num) + 1);
   const handleClick = (event, value) => {
     setPage(value);
-    console.log(chapters[value - 1]);
     history.push(`/series/${id}/${chapters[value - 1]}`);
   };
   return (

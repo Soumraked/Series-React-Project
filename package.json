@@ -11,6 +11,8 @@
     "@testing-library/user-event": "^7.2.1",
     "axios": "^0.19.2",
     "console-feed": "^3.0.0",
+    "disqus": "^0.3.0",
+    "disqus-react": "^1.0.9",
     "plyr": "^3.6.2",
     "plyr-react": "^2.2.0",
     "react": "^16.13.1",

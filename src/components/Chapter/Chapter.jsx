@@ -19,6 +19,9 @@ import Video from "./SubComponents/Video";
 import Error from "../../Views/Error";
 import Pagination from "./SubComponents/chipChapter";
 
+import Button from "@material-ui/core/Button";
+import Grid from "@material-ui/core/Grid";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: "100%",
@@ -49,13 +52,18 @@ function Chapter(props) {
 
   const chapter = useSelector((store) => store.series.chapter);
 
+  const [disqus, setDisqus] = useState(false);
+  const [disqusBtn, setDisqusBtn] = useState("block");
+
   React.useEffect(() => {
     const obtenerInfo = () => {
       dispatch(cleanChapter());
       dispatch(getChapter(id, num));
+      setDisqus(false);
+      setDisqusBtn("block");
     };
     obtenerInfo();
-  }, [dispatch, id, num]);
+  }, [dispatch, id, num, setDisqusBtn, setDisqus]);
 
   const [error, setError] = useState(false);
 
@@ -73,6 +81,25 @@ function Chapter(props) {
   const Alert = (props) => {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
   };
+
+  const disqusFunction = () => {
+    var d = document,
+      s = d.createElement("script");
+    s.src = "https://https-kooga-tk.disqus.com/embed.js";
+    s.setAttribute("data-timestamp", +new Date());
+    (d.head || d.body).appendChild(s);
+  };
+
+  const seeComments = () => {
+    disqusFunction();
+    setDisqus(true);
+    setDisqusBtn("none");
+  };
+
+  // var disqus_config = function () {
+  //   this.page.url = `https://kooga.tk/series/${id}/${num}`;
+  //   this.page.identifier = `/${id}/${num}`;
+  // };
 
   return (
     <div style={{ paddingTop: 20 }}>
@@ -143,6 +170,30 @@ function Chapter(props) {
           </CardContent>
         </Card>
       )}
+
+      <Card style={{ marginTop: 20, marginBottom: 20 }}>
+        <CardContent>
+          {disqus ? (
+            <div id="disqus_thread"></div>
+          ) : (
+            <Grid item xs={12} style={{ marginTop: 10 }}>
+              <Grid container justify="center" spacing={3}>
+                <Button
+                  variant="contained"
+                  size="large"
+                  color="primary"
+                  style={{ display: disqusBtn }}
+                  onClick={(event) => {
+                    seeComments();
+                  }}
+                >
+                  Ver comentarios
+                </Button>
+              </Grid>
+            </Grid>
+          )}
+        </CardContent>
+      </Card>
     </div>
   );
 }
