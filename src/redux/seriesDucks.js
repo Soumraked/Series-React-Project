@@ -4,6 +4,7 @@ import axios from "axios";
 const dataInitial = {
   lastChapter: [],
   seriesData: [],
+  moviesData: [],
   details: {},
   chapter: {},
   names: {},
@@ -12,6 +13,7 @@ const dataInitial = {
 //Types
 const GET_SERIES = "GET_SERIES";
 const GET_ALL_SERIES = "GET_ALL_SERIES";
+const GET_ALL_MOVIES = "GET_ALL_MOVIES";
 const GET_DETAILS = "GET_DETAILS";
 const GET_CHAPTER = "GET_CHAPTER";
 const GET_SEARCH = "GET_SEARCH";
@@ -23,6 +25,8 @@ export default function seriesReducer(state = dataInitial, action) {
       return { ...state, lastChapter: action.payload };
     case GET_ALL_SERIES:
       return { ...state, seriesData: action.payload };
+    case GET_ALL_MOVIES:
+      return { ...state, moviesData: action.payload };
     case GET_DETAILS:
       return { ...state, details: action.payload };
     case GET_CHAPTER:
@@ -121,6 +125,26 @@ export const getSearch = () => async (dispatch, getState) => {
     dispatch({
       type: GET_SEARCH,
       payload: res.data,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getAllMovies = () => async (dispatch, getState) => {
+  try {
+    const res = await axios.get(
+      "https://us-central1-monosotakos.cloudfunctions.net/api/getApi/getSerie"
+    );
+    var movies = [];
+    for (let i = 0; i < res.data.length; i++) {
+      if (res.data[i].type === "Película") {
+        movies.push(res.data[i]);
+      }
+    }
+    dispatch({
+      type: GET_ALL_MOVIES,
+      payload: movies,
     });
   } catch (error) {
     console.log(error);

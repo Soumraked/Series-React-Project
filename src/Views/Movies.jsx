@@ -1,9 +1,5 @@
 import React from "react";
-
+import MoviesComponent from "../components/Movies/Movies";
 export default function Movies() {
-  return (
-    <div>
-      <h1>Películas</h1>
-    </div>
-  );
+  return <MoviesComponent />;
 }
