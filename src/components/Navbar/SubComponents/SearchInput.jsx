@@ -14,7 +14,6 @@ import { Link } from "react-router-dom";
 
 import Popper from "@material-ui/core/Popper";
 import SearchIcon from "@material-ui/icons/Search";
-//import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   search: {
@@ -85,7 +84,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function SearchNames() {
-  //let history = useHistory();
   const classes = useStyles();
 
   //Call api
@@ -129,8 +127,6 @@ function SearchNames() {
   };
 
   const handleListItemClick = (value) => {
-    //console.log(history.location.pathname);
-    //history.push(history.location.pathname);
     setSearch("");
     setOptions([]);
     setAnchorEl(null);
