@@ -144,6 +144,7 @@ export default function PersistentDrawerLeft({
         <Divider />
         <List>
           <ListItem
+            disabled
             onClick={handleDrawerClose}
             button
             component={Link}

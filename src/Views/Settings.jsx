@@ -1,11 +1,8 @@
 import React from "react";
+import Upload from "../components/Upload/Upload";
 
 function Settings() {
-  return (
-    <div>
-      <h1>Configuración</h1>
-    </div>
-  );
+  return <Upload />;
 }
 
 export default Settings;
