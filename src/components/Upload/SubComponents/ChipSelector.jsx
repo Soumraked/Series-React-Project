@@ -50,7 +50,12 @@ export default function MultipleSelect({ addGenres, genres }) {
 
   const addGenreName = () => {
     if (pushGenre.length > 0) {
-      setGenresOption([...genresOption, pushGenre]);
+      if (genresOption.indexOf(pushGenre) === -1) {
+        setGenresOption([...genresOption, pushGenre]);
+      }
+      if (genres.indexOf(pushGenre) === -1) {
+        addGenres([...genres, pushGenre]);
+      }
       setPushGenre("");
     }
   };
@@ -64,12 +69,12 @@ export default function MultipleSelect({ addGenres, genres }) {
       <Grid container direction="row" justify="center" alignItems="center">
         <Grid item xs={12} sm={8}>
           <FormControl className={classes.formControl}>
-            <InputLabel id="demo-mutiple-checkbox-label" color="secondary">
+            <InputLabel id="genres" color="secondary">
               Géneros
             </InputLabel>
             <Select
               labelId="demo-mutiple-checkbox-label"
-              id="demo-mutiple-checkbox"
+              id="genres"
               multiple
               value={genres}
               onChange={handleChange}

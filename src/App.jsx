@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from "react";
+import React, { useState } from "react";
 
 //Dark mode
 import useMediaQuery from "@material-ui/core/useMediaQuery";
@@ -69,39 +69,29 @@ function App() {
 
   // End theme
   return (
-    <Fragment>
-      <Provider store={store}>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <Router>
-            <Navbar
-              themeState={themeState}
-              handleThemeChange={handleThemeChange}
-            />
-            <Container maxWidth="lg">
-              <Switch>
-                <Route exact path="/" component={Home}></Route>
-                <Route exact path="/series" component={Series}></Route>
-                <Route exact path="/peliculas" component={Movies}></Route>
-                <Route exact path="/configuracion" component={Settings}></Route>
-                <Route
-                  exact
-                  path="/series/:id"
-                  component={SerieDetails}
-                ></Route>
-                <Route
-                  exact
-                  path="/series/:id/:num"
-                  component={Chapter}
-                ></Route>
-                <Route component={Error}></Route>
-              </Switch>
-            </Container>
-            <Footer />
-          </Router>
-        </ThemeProvider>
-      </Provider>
-    </Fragment>
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Router>
+          <Navbar
+            themeState={themeState}
+            handleThemeChange={handleThemeChange}
+          />
+          <Container maxWidth="lg">
+            <Switch>
+              <Route exact path="/" component={Home}></Route>
+              <Route exact path="/series" component={Series}></Route>
+              <Route exact path="/peliculas" component={Movies}></Route>
+              <Route exact path="/configuracion" component={Settings}></Route>
+              <Route exact path="/series/:id" component={SerieDetails}></Route>
+              <Route exact path="/series/:id/:num" component={Chapter}></Route>
+              <Route component={Error}></Route>
+            </Switch>
+          </Container>
+          <Footer />
+        </Router>
+      </ThemeProvider>
+    </Provider>
   );
 }
 

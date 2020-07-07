@@ -12,8 +12,6 @@ import Typography from "@material-ui/core/Typography";
 import withWidth from "@material-ui/core/withWidth";
 
 import Skeleton from "@material-ui/lab/Skeleton";
-import Snackbar from "@material-ui/core/Snackbar";
-import MuiAlert from "@material-ui/lab/Alert";
 
 import Video from "./SubComponents/Video";
 import Error from "../../Views/Error";
@@ -65,23 +63,6 @@ function Chapter(props) {
     obtenerInfo();
   }, [dispatch, id, num, setDisqusBtn, setDisqus]);
 
-  const [error, setError] = useState(false);
-
-  const handleClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setError(false);
-  };
-
-  window.onerror = function (error) {
-    setError(true);
-  };
-
-  const Alert = (props) => {
-    return <MuiAlert elevation={6} variant="filled" {...props} />;
-  };
-
   const disqusFunction = () => {
     var d = document,
       s = d.createElement("script");
@@ -103,12 +84,6 @@ function Chapter(props) {
 
   return (
     <div style={{ paddingTop: 20 }}>
-      <Snackbar open={error} autoHideDuration={10000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity="error">
-          El episodio seleccionado no se encuentra disponible, deja un reporte
-          para solucionar este problema a la brevedad.
-        </Alert>
-      </Snackbar>
       {chapter.error ? (
         <Error />
       ) : (

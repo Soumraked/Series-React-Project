@@ -1,9 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 // import { PlyrComponent } from "plyr-react";
 import Plyr from "./plyr";
 import withWidth from "@material-ui/core/withWidth";
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
 
-function Video(props) {
+const Alert = (props) => {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+};
+
+function Video({ link, width }) {
   var data = {
     options: {
       controls: [
@@ -52,7 +58,7 @@ function Video(props) {
       type: "video",
       sources: [
         {
-          src: props.link,
+          src: link,
           type: "video/mp4",
           size: 720,
         },
@@ -110,13 +116,32 @@ function Video(props) {
   //   ],
   // };
 
+  const [error, setError] = useState(false);
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setError(false);
+  };
+
+  window.onerror = (event) => {
+    setError(true);
+  };
+
   return (
     <div>
       <Plyr
-        options={props.width === "xs" ? optionsResponsive : data.options}
+        options={width === "xs" ? optionsResponsive : data.options}
         sources={data.sources}
       />
       {/* <PlyrComponent style={{ width: "auto" }} sources={sources} /> */}
+      <Snackbar open={error} autoHideDuration={10000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="error">
+          El episodio seleccionado no se encuentra disponible, deja un reporte
+          para solucionar este problema a la brevedad.
+        </Alert>
+      </Snackbar>
     </div>
   );
 }

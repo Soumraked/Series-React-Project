@@ -8,14 +8,44 @@ import Divider from "@material-ui/core/Divider";
 import TextField from "@material-ui/core/TextField";
 import ChipSelector from "./ChipSelector";
 
-function CenterInformation({ addGenres, genres }) {
+function CenterInformation({
+  name,
+  addName,
+  desc,
+  addDesc,
+  genres,
+  addGenres,
+  nameAlternative,
+  addNameAlternative,
+}) {
+  const handleChangeName = (event) => {
+    addName(event.target.value);
+  };
+  const handleChangeNameAlternative = (event) => {
+    addNameAlternative(event.target.value);
+  };
+  const handleChangeDesc = (event) => {
+    addDesc(event.target.value);
+  };
   return (
     <div>
       <Card>
         <CardContent>
           <Typography gutterBottom variant="h5" component="h5">
             <TextField
+              value={name}
+              onChange={handleChangeName}
               label="Nombre"
+              variant="outlined"
+              color="secondary"
+              style={{ width: "100%" }}
+            />
+
+            <Divider style={{ margin: 10 }} variant="middle" />
+            <TextField
+              value={nameAlternative}
+              onChange={handleChangeNameAlternative}
+              label="Nombre alternativo"
               variant="outlined"
               color="secondary"
               style={{ width: "100%" }}
@@ -30,6 +60,8 @@ function CenterInformation({ addGenres, genres }) {
           </Typography>
           <Typography variant="body2" color="textSecondary" component="h6">
             <TextField
+              value={desc}
+              onChange={handleChangeDesc}
               label="Sinopsis"
               color="secondary"
               multiline

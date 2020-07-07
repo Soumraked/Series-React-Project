@@ -197,9 +197,11 @@ const Details = ({
                     >
                       <PlayCircleFilledRoundedIcon style={{ marginRight: 5 }} />
                       <ListItemText
-                        primary={`${name} ${
-                          item.number
-                        } sub ${sub.toLowerCase()}`}
+                        primary={
+                          sub.toLowerCase() === "sin subtitulos"
+                            ? `${name} ${item.number}`
+                            : `${name} ${item.number} sub ${sub.toLowerCase()}`
+                        }
                       />
                     </ListItem>
                   ))}
