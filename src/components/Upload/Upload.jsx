@@ -100,11 +100,9 @@ function Upload({ width }) {
     setTextFile(value);
   };
 
-  console.log(textFile);
-
   return (
     <div>
-      <h1>Subir serie </h1>
+      <h1>Upload serie</h1>
       <div style={{ paddingTop: 20 }}>
         <Card className={classes.root}>
           <ImageUploadCover cover={cover} addCover={addCover} />

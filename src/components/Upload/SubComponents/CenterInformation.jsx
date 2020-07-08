@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
@@ -20,13 +20,18 @@ function CenterInformation({
 }) {
   const handleChangeName = (event) => {
     addName(event.target.value);
+    setNameBool(event.target.value.length > 0 ? false : true);
   };
   const handleChangeNameAlternative = (event) => {
     addNameAlternative(event.target.value);
   };
   const handleChangeDesc = (event) => {
     addDesc(event.target.value);
+    setDescBool(event.target.value.length > 0 ? false : true);
   };
+
+  const [nameBool, setNameBool] = useState(false);
+  const [descBool, setDescBool] = useState(false);
   return (
     <div>
       <Card>
@@ -39,6 +44,13 @@ function CenterInformation({
               variant="outlined"
               color="secondary"
               style={{ width: "100%" }}
+              error={nameBool}
+              helperText={nameBool && "Campo requerido."}
+              onBlur={(event) => {
+                event.target.value.length === 0
+                  ? setNameBool(true)
+                  : setNameBool(false);
+              }}
             />
 
             <Divider style={{ margin: 10 }} variant="middle" />
@@ -68,6 +80,13 @@ function CenterInformation({
               style={{ width: "100%" }}
               rows={7}
               variant="outlined"
+              error={descBool && desc.length === 0}
+              helperText={descBool && desc.length === 0 && "Campo requerido."}
+              onBlur={(event) => {
+                event.target.value.length === 0
+                  ? setDescBool(true)
+                  : setDescBool(false);
+              }}
             />
           </Typography>
           <Divider style={{ marginTop: 20 }} variant="middle" />

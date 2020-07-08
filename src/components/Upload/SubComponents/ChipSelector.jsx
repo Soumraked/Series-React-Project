@@ -11,6 +11,7 @@ import TextField from "@material-ui/core/TextField";
 import AddIcon from "@material-ui/icons/Add";
 import IconButton from "@material-ui/core/IconButton";
 import Grid from "@material-ui/core/Grid";
+import FormHelperText from "@material-ui/core/FormHelperText";
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -64,11 +65,18 @@ export default function MultipleSelect({ addGenres, genres }) {
     setPushGenre(event.target.value);
   };
 
+  const [chipsBool, setChipsBool] = useState(false);
+
   return (
     <div>
       <Grid container direction="row" justify="center" alignItems="center">
         <Grid item xs={12} sm={8}>
-          <FormControl className={classes.formControl}>
+          <FormControl
+            className={classes.formControl}
+            onBlur={() => {
+              genres.length === 0 ? setChipsBool(true) : setChipsBool(false);
+            }}
+          >
             <InputLabel id="genres" color="secondary">
               Géneros
             </InputLabel>
@@ -81,6 +89,7 @@ export default function MultipleSelect({ addGenres, genres }) {
               input={<Input />}
               renderValue={(selected) => selected.join(", ")}
               MenuProps={MenuProps}
+              error={chipsBool}
             >
               {genresOption.map((name) => (
                 <MenuItem key={name} value={name}>
@@ -89,6 +98,11 @@ export default function MultipleSelect({ addGenres, genres }) {
                 </MenuItem>
               ))}
             </Select>
+            {chipsBool && (
+              <FormHelperText>
+                Se requiere un mínimo de un género
+              </FormHelperText>
+            )}
           </FormControl>
         </Grid>
         <Grid item xs={8} sm={3}>
