@@ -97,7 +97,7 @@ function LeftInformation({
                 <MenuItem value={"español"}>Sub español</MenuItem>
                 <MenuItem value={"sin subtitulos"}>Sin subtitulos</MenuItem>
               </Select>
-              <FormHelperText>Estado</FormHelperText>
+              <FormHelperText>Subtitulos</FormHelperText>
             </FormControl>
             <FormControl style={{ width: "100%", paddingBottom: 10 }}>
               <Select

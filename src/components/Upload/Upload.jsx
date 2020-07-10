@@ -10,6 +10,7 @@ import LeftInformation from "./SubComponents/LeftInformation";
 import CenterInformation from "./SubComponents/CenterInformation";
 import ImageUploadCover from "./SubComponents/imageUploadCover";
 import ImageUploadChapter from "./SubComponents/imageUploadChapter";
+import AddChapter from "./SubComponents/AddChapter";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -145,6 +146,9 @@ function Upload({ width }) {
                 />
               </CardContent>
             </Card>
+          </Grid>
+          <Grid item xs={12}>
+            <AddChapter />
           </Grid>
         </Grid>
       </div>
