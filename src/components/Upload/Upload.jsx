@@ -13,11 +13,6 @@ import ImageUploadChapter from "./SubComponents/imageUploadChapter";
 import AddChapter from "./SubComponents/AddChapter";
 import AddChapterOne from "./SubComponents/AddChapterOne";
 
-import Radio from "@material-ui/core/Radio";
-import RadioGroup from "@material-ui/core/RadioGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import FormControl from "@material-ui/core/FormControl";
-
 import Table from "./SubComponents/TableChapter";
 import FileText from "./SubComponents/UploadFileText";
 
@@ -62,7 +57,6 @@ function Upload({ width }) {
   const [chapter, setChapter] = useState(
     "https://firebasestorage.googleapis.com/v0/b/monosotakos.appspot.com/o/imageUpload%2Fchapter.png?alt=media"
   );
-  const [textFile, setTextFile] = useState("");
 
   const [rows, setRows] = useState([]);
 
@@ -114,10 +108,6 @@ function Upload({ width }) {
     setChapter(value);
   };
 
-  const addTextFile = (value) => {
-    setTextFile(value);
-  };
-
   const addRows = (value) => {
     setRows(value);
   };
@@ -166,50 +156,19 @@ function Upload({ width }) {
           <Grid item xs={12}>
             <Card>
               <CardContent>
-                <Grid
-                  item
-                  xs={12}
-                  container
-                  direction="row"
-                  justify="center"
-                  alignItems="center"
-                >
-                  <h1>Ingreso de episodios</h1>
-                </Grid>
-                <Grid
-                  item
-                  xs={12}
-                  container
-                  direction="row"
-                  justify="center"
-                  alignItems="center"
-                >
-                  <FormControl component="fieldset">
-                    <RadioGroup value={value} onChange={handleChange} row>
-                      <FormControlLabel
-                        value="manual"
-                        control={<Radio />}
-                        label="Ingreso manual"
-                      />
-                      <FormControlLabel
-                        value="iterativo"
-                        control={<Radio />}
-                        label="Ingreso iterativo"
-                      />
-                      <FormControlLabel
-                        value="file"
-                        control={<Radio />}
-                        label="Ingreso mediante archivo de texto"
-                      />
-                    </RadioGroup>
-                  </FormControl>
-                </Grid>
+                <Table
+                  rows={rows}
+                  addRows={addRows}
+                  value={value}
+                  handleChange={handleChange}
+                />
               </CardContent>
             </Card>
           </Grid>
+
           {value === "file" && (
             <Grid item xs={12}>
-              <FileText textFile={textFile} addTextFile={addTextFile} />
+              <FileText rows={rows} addRows={addRows} />
             </Grid>
           )}
 
@@ -223,13 +182,6 @@ function Upload({ width }) {
               <AddChapterOne rows={rows} addRows={addRows} />
             </Grid>
           )}
-          <Grid item xs={12}>
-            <Card>
-              <CardContent>
-                <Table rows={rows} addRows={addRows} />
-              </CardContent>
-            </Card>
-          </Grid>
         </Grid>
       </div>
     </div>

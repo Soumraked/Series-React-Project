@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
 import DescriptionIcon from "@material-ui/icons/Description";
@@ -20,16 +20,34 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function UploadButtons({ textFile, addTextFile }) {
+export default function UploadButtons({ rows, addRows }) {
   const classes = useStyles();
 
+  const [inputFile, setInputFile] = useState(false);
+
   const handleChangeText = (event) => {
+    var linkList = [];
+
     var file = event.target.files[0];
     const reader = new FileReader();
-    reader.readAsDataURL(file);
 
+    reader.readAsText(file);
     reader.onloadend = function (e) {
-      addTextFile(reader.result);
+      var rowsList = [];
+      for (let i = 0; i < rows.length; i++) {
+        rowsList.push(rows[i].num);
+      }
+      var lines = e.target.result.toString().split("\n");
+      for (let i = 0; i < lines.length; i++) {
+        let elements = lines[i].split("\t");
+        if (rowsList.indexOf(elements[0]) === -1) {
+          linkList.push({ num: elements[0], url: elements[1] });
+        }
+      }
+      addRows([...rows, ...linkList]);
+      if (linkList.length > 0) {
+        setInputFile(true);
+      }
     };
   };
 
@@ -77,7 +95,7 @@ export default function UploadButtons({ textFile, addTextFile }) {
                 className={classes.mediaText}
                 component="img"
                 src={
-                  textFile.length > 0
+                  inputFile && rows.length > 0
                     ? "https://firebasestorage.googleapis.com/v0/b/monosotakos.appspot.com/o/imageUpload%2FTextFileCheck.jpg?alt=media"
                     : "https://firebasestorage.googleapis.com/v0/b/monosotakos.appspot.com/o/imageUpload%2FTextFile.png?alt=media"
                 }

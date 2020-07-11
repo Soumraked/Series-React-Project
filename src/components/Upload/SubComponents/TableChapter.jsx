@@ -12,9 +12,15 @@ import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import DialogDelete from "./DialogDeleteRows";
+import DialogDeleteAll from "./DialogDeleteAllRows";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
+
+import Radio from "@material-ui/core/Radio";
+import RadioGroup from "@material-ui/core/RadioGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import FormControl from "@material-ui/core/FormControl";
 
 const columns = [
   { id: "num", label: "Número", minWidth: 100 },
@@ -49,7 +55,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function StickyHeadTable({ rows, addRows }) {
+export default function StickyHeadTable({
+  rows,
+  addRows,
+  value,
+  handleChange,
+}) {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -88,7 +99,13 @@ export default function StickyHeadTable({ rows, addRows }) {
     setOpen(false);
   };
 
+  const handleDeleteAll = () => {
+    addRows([]);
+    setOpenAll(false);
+  };
+
   const [open, setOpen] = React.useState(false);
+  const [openAll, setOpenAll] = React.useState(false);
 
   const [deleteVar, setDeleteVar] = useState("");
 
@@ -99,6 +116,10 @@ export default function StickyHeadTable({ rows, addRows }) {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleCloseAll = () => {
+    setOpenAll(false);
   };
 
   const saveModify = () => {
@@ -160,9 +181,62 @@ export default function StickyHeadTable({ rows, addRows }) {
         </div>
       )}
 
-      {rows.length > 0 && (
+      <Grid
+        item
+        xs={12}
+        container
+        direction="row"
+        justify="center"
+        alignItems="center"
+      >
+        <h1>Ingreso de episodios</h1>
+      </Grid>
+      <Grid
+        item
+        xs={12}
+        container
+        direction="row"
+        justify="center"
+        alignItems="center"
+      >
+        <FormControl component="fieldset">
+          <RadioGroup value={value} onChange={handleChange} row>
+            <FormControlLabel
+              value="manual"
+              control={<Radio />}
+              label="Ingreso manual"
+            />
+            <FormControlLabel
+              value="iterativo"
+              control={<Radio />}
+              label="Ingreso iterativo"
+            />
+            <FormControlLabel
+              value="file"
+              control={<Radio />}
+              label="Ingreso mediante archivo de texto"
+            />
+          </RadioGroup>
+        </FormControl>
+      </Grid>
+
+      {rows.length > 0 ? (
         <Paper className={classes.root}>
-          <h1>Listado de episodios</h1>
+          <Grid container direction="row" justify="center" alignItems="center">
+            <h1>Listado de episodios</h1>
+            <Button
+              style={{
+                margin: 20,
+              }}
+              variant="outlined"
+              onClick={() => {
+                setOpenAll(true);
+              }}
+            >
+              Eliminar campos
+            </Button>
+          </Grid>
+
           <TableContainer className={classes.container}>
             <Table stickyHeader aria-label="sticky table">
               <TableHead>
@@ -234,7 +308,16 @@ export default function StickyHeadTable({ rows, addRows }) {
             handleClose={handleClose}
             handleDelete={handleDelete}
           />
+          <DialogDeleteAll
+            openAll={openAll}
+            handleCloseAll={handleCloseAll}
+            handleDeleteAll={handleDeleteAll}
+          />
         </Paper>
+      ) : (
+        <Grid container direction="row" justify="center" alignItems="center">
+          <h1>Aquí se visualizarán el listado de episodios.</h1>
+        </Grid>
       )}
     </div>
   );

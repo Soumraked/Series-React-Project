@@ -49,7 +49,6 @@ function AddChapter({ rows, addRows }) {
 
     let rowsList = [];
     for (let i = 0; i < rows.length; i++) {
-      console.log(rows[i].num);
       rowsList.push(rows[i].num);
     }
 
