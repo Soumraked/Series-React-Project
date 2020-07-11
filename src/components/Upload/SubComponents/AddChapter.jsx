@@ -10,8 +10,6 @@ import Button from "@material-ui/core/Button";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 
-import Table from "./TableChapter";
-
 const useStyles = makeStyles((theme) => ({
   large: {
     width: "75%",
@@ -36,9 +34,9 @@ const Alert = (props) => {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 };
 
-function AddChapter() {
+function AddChapter({ rows, addRows }) {
   const classes = useStyles();
-  const [rows, setRows] = useState([]);
+  //const [rows, setRows] = useState([]);
 
   const [init, setInit] = useState("");
   const [last, setLast] = useState("");
@@ -48,6 +46,13 @@ function AddChapter() {
 
   const handleClick = () => {
     var linkList = [];
+
+    let rowsList = [];
+    for (let i = 0; i < rows.length; i++) {
+      console.log(rows[i].num);
+      rowsList.push(rows[i].num);
+    }
+
     const baseUrl1 = init.slice(0, init.indexOf(initFor));
     let iterative1 = init.slice(
       init.indexOf(initFor),
@@ -84,15 +89,18 @@ function AddChapter() {
         } else {
           num = "";
         }
-        linkList.push({
-          num: `${num + i}`,
-          url: `${baseUrl1}${num + i}${ext1}`,
-        });
+        if (rowsList.indexOf(`${num + i}`) === -1) {
+          linkList.push({
+            num: `${num + i}`,
+            url: `${baseUrl1}${num + i}${ext1}`,
+          });
+        }
       }
     } else {
       setError(true);
     }
-    setRows(linkList);
+    //setRows(linkList);
+    addRows([...rows, ...linkList]);
   };
 
   const [error, setError] = useState(false);
@@ -105,7 +113,7 @@ function AddChapter() {
   };
 
   return (
-    <Card style={{ marginTop: 20 }}>
+    <Card>
       <Grid
         container
         direction="row"
@@ -151,7 +159,7 @@ function AddChapter() {
           />
 
           {/* Fin ejemplo */}
-
+          <h2>Ingreso</h2>
           <TextField
             value={init}
             onChange={(event) => setInit(event.target.value)}
@@ -193,7 +201,6 @@ function AddChapter() {
               Generar episodios
             </Button>
           </Grid>
-          <Table rows={rows} />
         </CardContent>
       </Grid>
       <Snackbar open={error} autoHideDuration={10000} onClose={handleClose}>

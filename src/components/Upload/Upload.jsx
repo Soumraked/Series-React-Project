@@ -11,6 +11,15 @@ import CenterInformation from "./SubComponents/CenterInformation";
 import ImageUploadCover from "./SubComponents/imageUploadCover";
 import ImageUploadChapter from "./SubComponents/imageUploadChapter";
 import AddChapter from "./SubComponents/AddChapter";
+import AddChapterOne from "./SubComponents/AddChapterOne";
+
+import Radio from "@material-ui/core/Radio";
+import RadioGroup from "@material-ui/core/RadioGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import FormControl from "@material-ui/core/FormControl";
+
+import Table from "./SubComponents/TableChapter";
+import FileText from "./SubComponents/UploadFileText";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,6 +29,12 @@ const useStyles = makeStyles((theme) => ({
 
 function Upload({ width }) {
   const classes = useStyles();
+
+  const [value, setValue] = useState("manual");
+
+  const handleChange = (event) => {
+    setValue(event.target.value);
+  };
 
   let newDate = new Date();
   let day = newDate.getDate();
@@ -48,6 +63,8 @@ function Upload({ width }) {
     "https://firebasestorage.googleapis.com/v0/b/monosotakos.appspot.com/o/imageUpload%2Fchapter.png?alt=media"
   );
   const [textFile, setTextFile] = useState("");
+
+  const [rows, setRows] = useState([]);
 
   const addGenres = (genresList) => {
     setGenres(genresList);
@@ -101,6 +118,10 @@ function Upload({ width }) {
     setTextFile(value);
   };
 
+  const addRows = (value) => {
+    setRows(value);
+  };
+
   return (
     <div>
       <h1>Upload serie</h1>
@@ -138,17 +159,76 @@ function Upload({ width }) {
             />
             <Card style={{ marginTop: 20 }}>
               <CardContent>
-                <ImageUploadChapter
-                  chapter={chapter}
-                  addChapter={addChapter}
-                  textFile={textFile}
-                  addTextFile={addTextFile}
-                />
+                <ImageUploadChapter chapter={chapter} addChapter={addChapter} />
               </CardContent>
             </Card>
           </Grid>
           <Grid item xs={12}>
-            <AddChapter />
+            <Card>
+              <CardContent>
+                <Grid
+                  item
+                  xs={12}
+                  container
+                  direction="row"
+                  justify="center"
+                  alignItems="center"
+                >
+                  <h1>Ingreso de episodios</h1>
+                </Grid>
+                <Grid
+                  item
+                  xs={12}
+                  container
+                  direction="row"
+                  justify="center"
+                  alignItems="center"
+                >
+                  <FormControl component="fieldset">
+                    <RadioGroup value={value} onChange={handleChange} row>
+                      <FormControlLabel
+                        value="manual"
+                        control={<Radio />}
+                        label="Ingreso manual"
+                      />
+                      <FormControlLabel
+                        value="iterativo"
+                        control={<Radio />}
+                        label="Ingreso iterativo"
+                      />
+                      <FormControlLabel
+                        value="file"
+                        control={<Radio />}
+                        label="Ingreso mediante archivo de texto"
+                      />
+                    </RadioGroup>
+                  </FormControl>
+                </Grid>
+              </CardContent>
+            </Card>
+          </Grid>
+          {value === "file" && (
+            <Grid item xs={12}>
+              <FileText textFile={textFile} addTextFile={addTextFile} />
+            </Grid>
+          )}
+
+          {value === "iterativo" && (
+            <Grid item xs={12}>
+              <AddChapter rows={rows} addRows={addRows} />
+            </Grid>
+          )}
+          {value === "manual" && (
+            <Grid item xs={12}>
+              <AddChapterOne rows={rows} addRows={addRows} />
+            </Grid>
+          )}
+          <Grid item xs={12}>
+            <Card>
+              <CardContent>
+                <Table rows={rows} addRows={addRows} />
+              </CardContent>
+            </Card>
           </Grid>
         </Grid>
       </div>
