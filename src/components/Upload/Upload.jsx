@@ -12,6 +12,7 @@ import ImageUploadCover from "./SubComponents/imageUploadCover";
 import ImageUploadChapter from "./SubComponents/imageUploadChapter";
 import AddChapter from "./SubComponents/AddChapter";
 import AddChapterOne from "./SubComponents/AddChapterOne";
+import Button from "@material-ui/core/Button";
 
 import Table from "./SubComponents/TableChapter";
 import FileText from "./SubComponents/UploadFileText";
@@ -112,9 +113,34 @@ function Upload({ width }) {
     setRows(value);
   };
 
+  const cleanData = () => {
+    setValue("manual");
+    setGenres([]);
+    setName("");
+    setNameAlternative("");
+    setDesc("");
+    setType("Anime");
+    //setDate(dateNow);
+    setStatus(true);
+    setSub("español");
+    setLang("Japones");
+    setThumbnail(
+      "https://firebasestorage.googleapis.com/v0/b/monosotakos.appspot.com/o/imageUpload%2Fthumbnail.png?alt=media"
+    );
+    setCover(
+      "https://firebasestorage.googleapis.com/v0/b/monosotakos.appspot.com/o/imageUpload%2Fcover.png?alt=media"
+    );
+    setChapter(
+      "https://firebasestorage.googleapis.com/v0/b/monosotakos.appspot.com/o/imageUpload%2Fchapter.png?alt=media"
+    );
+    setRows([]);
+  };
+
   return (
     <div>
-      <h1>Upload serie</h1>
+      <Grid container direction="row" justify="center" alignItems="center">
+        <h1>Ingreso de serie</h1>
+      </Grid>
       <div style={{ paddingTop: 20 }}>
         <Card className={classes.root}>
           <ImageUploadCover cover={cover} addCover={addCover} />
@@ -182,6 +208,36 @@ function Upload({ width }) {
               <AddChapterOne rows={rows} addRows={addRows} />
             </Grid>
           )}
+        </Grid>
+        <Grid
+          container
+          direction="row"
+          justify="center"
+          alignItems="center"
+          style={{ marginTop: 20 }}
+        >
+          <Button
+            style={{
+              margin: 20,
+            }}
+            variant="outlined"
+            onClick={() => {
+              cleanData();
+            }}
+          >
+            Limpiar campos
+          </Button>
+          <Button
+            style={{
+              margin: 20,
+            }}
+            variant="outlined"
+            onClick={() => {
+              console.log("Añadir datos");
+            }}
+          >
+            Ingresar datos
+          </Button>
         </Grid>
       </div>
     </div>

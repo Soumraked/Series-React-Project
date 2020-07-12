@@ -189,7 +189,7 @@ export default function StickyHeadTable({
         justify="center"
         alignItems="center"
       >
-        <h1>Ingreso de episodios</h1>
+        <h1>Ingreso de episodios (opcional)</h1>
       </Grid>
       <Grid
         item
