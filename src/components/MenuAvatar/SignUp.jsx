@@ -21,13 +21,18 @@ import Grid from "@material-ui/core/Grid";
 import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
+import CircularProgress from "@material-ui/core/CircularProgress";
+
+import FormHelperText from "@material-ui/core/FormHelperText";
 
 import Avatar from "@material-ui/core/Avatar";
 
+import axios from "axios";
+
 function getSteps() {
   return [
-    "Introduce tu nombre de usuario.",
-    "Introduce tu contraseña",
+    "Introduce tu nombre de usuario y contraseña.",
+    "Validando datos",
     "Bienvenido a Kooga",
   ];
 }
@@ -42,6 +47,12 @@ const styles = (theme) => ({
     right: theme.spacing(1),
     top: theme.spacing(1),
     color: theme.palette.grey[500],
+  },
+  progress: {
+    display: "flex",
+    "& > * + *": {
+      marginLeft: theme.spacing(2),
+    },
   },
 });
 
@@ -104,18 +115,90 @@ export default function CustomizedDialogs({ open, handleClose }) {
   const [activeStep, setActiveStep] = React.useState(0);
   const steps = getSteps();
 
+  const [messageName, setMessageName] = React.useState("");
+  const [messagePass, setMessagePass] = React.useState("");
+
   const handleNext = () => {
-    if (activeStep === 2) {
-      setActiveStep(0);
-      handleClose();
-    } else {
-      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    switch (activeStep) {
+      case 0:
+        setActiveStep(1);
+        setMessageName("");
+        setMessagePass("");
+        axios
+          .post(
+            `https://us-central1-koonga.cloudfunctions.net/api/auth/signup`,
+            {
+              id: nick,
+              password: values.password,
+            }
+          )
+          .then((data) => {
+            console.log(data.data.token);
+            localStorage.token = data.data.token;
+            localStorage.name = nick;
+            setNick("");
+            setValues({ ...values, password: "" });
+            setActiveStep(2);
+          })
+          .catch((error) => {
+            switch (error.request.status) {
+              case 409:
+                setMessageName("El nombre de usuario ya está utilizado.");
+                if (values.password.length === 0) {
+                  setMessagePass("La contraseña no puede estar vacia.");
+                }
+                break;
+              case 500:
+                if (nick.length === 0) {
+                  setMessageName("El nombre de usuario no puede estar vacio.");
+                }
+                if (values.password.length === 0) {
+                  setMessagePass("La contraseña no puede estar vacia.");
+                }
+                if (nick.length !== 0 && values.password.length !== 0) {
+                  if (values.password.length < 6) {
+                    setMessagePass(
+                      "La contraseña debe tener al menos 6 caracteres."
+                    );
+                  } else {
+                    setMessageName(
+                      "Error desconocido, verifique los datos antes de continuar."
+                    );
+                    setMessagePass(
+                      "Error desconocido, verifique los datos antes de continuar."
+                    );
+                  }
+                }
+                break;
+              default:
+                setMessageName(
+                  "Error desconocido, verifique los datos antes de continuar."
+                );
+                setMessagePass(
+                  "Error desconocido, verifique los datos antes de continuar."
+                );
+                break;
+            }
+            setActiveStep(0);
+          });
+
+        break;
+      case 1:
+        console.log("Wait.");
+        break;
+      case 2:
+        handleClose();
+        setActiveStep(0);
+        break;
+      default:
+        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+        break;
     }
   };
 
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
+  // const handleBack = () => {
+  //   setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  // };
 
   const [nick, setNick] = React.useState("");
 
@@ -163,7 +246,7 @@ export default function CustomizedDialogs({ open, handleClose }) {
           Crear cuenta
         </DialogTitle>
         <DialogContent dividers>
-          <Grid container direction="row" justify="center" alignItems="center">
+          <Grid>
             <Stepper
               activeStep={activeStep}
               alternativeLabel
@@ -194,43 +277,63 @@ export default function CustomizedDialogs({ open, handleClose }) {
                         onChange={(event) => {
                           handleNick(event);
                         }}
+                        autoComplete="off"
+                        error={messageName !== ""}
+                        helperText={messageName}
                       />
+                    </FormControl>
+                    <FormControl
+                      className={clsx(classes.margin, classes.textField)}
+                      style={{ width: "95%", marginBottom: 30 }}
+                      error={messagePass !== ""}
+                    >
+                      <InputLabel
+                        htmlFor="standard-adornment-password"
+                        color="secondary"
+                      >
+                        Contraseña
+                      </InputLabel>
+                      <Input
+                        error={messagePass !== ""}
+                        color="secondary"
+                        id="pass-error"
+                        type={values.showPassword ? "text" : "password"}
+                        value={values.password}
+                        onChange={handleChange("password")}
+                        endAdornment={
+                          <InputAdornment position="end">
+                            <IconButton
+                              aria-label="toggle password visibility"
+                              onClick={handleClickShowPassword}
+                              onMouseDown={handleMouseDownPassword}
+                            >
+                              {values.showPassword ? (
+                                <Visibility />
+                              ) : (
+                                <VisibilityOff />
+                              )}
+                            </IconButton>
+                          </InputAdornment>
+                        }
+                      />
+                      <FormHelperText id="pass-error">
+                        {" "}
+                        {messagePass}{" "}
+                      </FormHelperText>
                     </FormControl>
                   </Grid>
                 ) : activeStep === 1 ? (
-                  <FormControl
-                    className={clsx(classes.margin, classes.textField)}
-                    style={{ width: "95%", marginBottom: 30 }}
-                  >
-                    <InputLabel
-                      htmlFor="standard-adornment-password"
-                      color="secondary"
+                  <div className={classes.progress}>
+                    <Grid
+                      container
+                      direction="row"
+                      justify="center"
+                      alignItems="center"
+                      style={{ marginBottom: 20, marginTop: 20 }}
                     >
-                      Contraseña
-                    </InputLabel>
-                    <Input
-                      color="secondary"
-                      id="standard-adornment-password"
-                      type={values.showPassword ? "text" : "password"}
-                      value={values.password}
-                      onChange={handleChange("password")}
-                      endAdornment={
-                        <InputAdornment position="end">
-                          <IconButton
-                            aria-label="toggle password visibility"
-                            onClick={handleClickShowPassword}
-                            onMouseDown={handleMouseDownPassword}
-                          >
-                            {values.showPassword ? (
-                              <Visibility />
-                            ) : (
-                              <VisibilityOff />
-                            )}
-                          </IconButton>
-                        </InputAdornment>
-                      }
-                    />
-                  </FormControl>
+                      <CircularProgress color="secondary" />
+                    </Grid>
+                  </div>
                 ) : (
                   <Grid
                     container
@@ -267,7 +370,7 @@ export default function CustomizedDialogs({ open, handleClose }) {
                 )}
 
                 <div>
-                  {[0, 1].indexOf(activeStep) !== -1 && (
+                  {/* {[0, 1].indexOf(activeStep) !== -1 && (
                     <Button
                       disabled={
                         activeStep === 0 || activeStep === steps.length - 1
@@ -277,16 +380,18 @@ export default function CustomizedDialogs({ open, handleClose }) {
                     >
                       Anterior
                     </Button>
+                  )} */}
+                  {[0, 2].indexOf(activeStep) !== -1 && (
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={handleNext}
+                    >
+                      {activeStep === steps.length - 1
+                        ? "Finalizar"
+                        : "Siguiente"}
+                    </Button>
                   )}
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleNext}
-                  >
-                    {activeStep === steps.length - 1
-                      ? "Finalizar"
-                      : "Siguiente"}
-                  </Button>
                 </div>
               </div>
             </div>

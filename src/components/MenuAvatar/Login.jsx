@@ -18,6 +18,10 @@ import FormControl from "@material-ui/core/FormControl";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import Grid from "@material-ui/core/Grid";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import CircularProgress from "@material-ui/core/CircularProgress";
+
+import axios from "axios";
 
 const styles = (theme) => ({
   root: {
@@ -92,6 +96,10 @@ export default function CustomizedDialogs({ open, handleClose }) {
     showPassword: false,
   });
 
+  const [messageName, setMessageName] = React.useState("");
+  const [messagePass, setMessagePass] = React.useState("");
+  const [charge, setCharge] = React.useState(false);
+
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
   };
@@ -108,6 +116,55 @@ export default function CustomizedDialogs({ open, handleClose }) {
 
   const handleNick = (event) => {
     setNick(event.target.value);
+  };
+
+  const handleLogin = () => {
+    axios
+      .post(`https://us-central1-koonga.cloudfunctions.net/api/auth/login`, {
+        id: nick,
+        password: values.password,
+      })
+      .then((data) => {
+        localStorage.token = data.data.token;
+        localStorage.name = data.data.name;
+        localStorage.rol = data.data.rol + "|admin3";
+        setNick("");
+        setValues({ ...values, password: "" });
+        setMessageName("");
+        setMessagePass("");
+        handleClose();
+        setCharge(false);
+      })
+      .catch((error) => {
+        setMessageName("");
+        setMessagePass("");
+        console.log(error.request);
+        switch (error.request.status) {
+          case 500:
+            if (nick.length === 0) {
+              setMessageName("El nombre de usuario no puede estar vacio.");
+            }
+            if (values.password.length === 0) {
+              setMessagePass("La contraseña no puede estar vacia.");
+            }
+            if (nick.length !== 0 && values.password.length !== 0) {
+              setMessageName(" ");
+              setMessagePass(
+                "Las credenciales no coinciden, intenta nuevamente."
+              );
+            }
+            break;
+          default:
+            setMessageName(
+              "Error desconocido, verifique los datos antes de continuar."
+            );
+            setMessagePass(
+              "Error desconocido, verifique los datos antes de continuar."
+            );
+            break;
+        }
+        setCharge(false);
+      });
   };
 
   return (
@@ -137,6 +194,9 @@ export default function CustomizedDialogs({ open, handleClose }) {
                   onChange={(event) => {
                     handleNick(event);
                   }}
+                  error={messageName !== ""}
+                  helperText={messageName}
+                  autoComplete="off"
                 />
               </FormControl>
             </Grid>
@@ -144,6 +204,7 @@ export default function CustomizedDialogs({ open, handleClose }) {
               <FormControl
                 className={clsx(classes.margin, classes.textField)}
                 style={{ width: "95%" }}
+                error={messagePass !== ""}
               >
                 <InputLabel
                   htmlFor="standard-adornment-password"
@@ -152,8 +213,9 @@ export default function CustomizedDialogs({ open, handleClose }) {
                   Contraseña
                 </InputLabel>
                 <Input
+                  error={messagePass !== ""}
                   color="secondary"
-                  id="standard-adornment-password"
+                  id="pass-error"
                   type={values.showPassword ? "text" : "password"}
                   value={values.password}
                   onChange={handleChange("password")}
@@ -173,13 +235,27 @@ export default function CustomizedDialogs({ open, handleClose }) {
                     </InputAdornment>
                   }
                 />
+                <FormHelperText id="pass-error"> {messagePass} </FormHelperText>
               </FormControl>
             </Grid>
           </Grid>
         </DialogContent>
         <DialogActions>
-          <Button autoFocus onClick={handleClose}>
-            Ingresar
+          <Button
+            autoFocus
+            onClick={() => {
+              setCharge(true);
+              handleLogin();
+            }}
+          >
+            {charge ? (
+              <CircularProgress
+                color="secondary"
+                style={{ width: "50%", height: "50%" }}
+              />
+            ) : (
+              "Ingresar"
+            )}
           </Button>
         </DialogActions>
       </Dialog>

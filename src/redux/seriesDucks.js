@@ -10,13 +10,20 @@ const dataInitial = {
   names: {},
 };
 
+//API URL
+const baseUrl = "https://us-central1-koonga.cloudfunctions.net/api";
+
 //Types
+
+//Gets
 const GET_SERIES = "GET_SERIES";
 const GET_ALL_SERIES = "GET_ALL_SERIES";
 const GET_ALL_MOVIES = "GET_ALL_MOVIES";
 const GET_DETAILS = "GET_DETAILS";
 const GET_CHAPTER = "GET_CHAPTER";
 const GET_SEARCH = "GET_SEARCH";
+
+//Set
 
 //Reducer
 export default function seriesReducer(state = dataInitial, action) {
@@ -41,9 +48,7 @@ export default function seriesReducer(state = dataInitial, action) {
 //Actions
 export const getSeries = () => async (dispatch, getState) => {
   try {
-    const res = await axios.get(
-      "https://us-central1-monosotakos.cloudfunctions.net/api/last/get"
-    );
+    const res = await axios.get(`${baseUrl}/last/get`);
     dispatch({
       type: GET_SERIES,
       payload: res.data.slice(0, 24),
@@ -55,9 +60,7 @@ export const getSeries = () => async (dispatch, getState) => {
 
 export const getAllSeries = () => async (dispatch, getState) => {
   try {
-    const res = await axios.get(
-      "https://us-central1-monosotakos.cloudfunctions.net/api/getApi/getSerie"
-    );
+    const res = await axios.get(`${baseUrl}/getApi/getSerie`);
     dispatch({
       type: GET_ALL_SERIES,
       payload: res.data,
@@ -69,9 +72,7 @@ export const getAllSeries = () => async (dispatch, getState) => {
 
 export const getDetails = (id) => async (dispatch, getState) => {
   try {
-    const res = await axios.get(
-      `https://us-central1-monosotakos.cloudfunctions.net/api/getApi/getSerie/${id}`
-    );
+    const res = await axios.get(`${baseUrl}/getApi/getSerie/${id}`);
     dispatch({
       type: GET_DETAILS,
       payload: res.data,
@@ -94,9 +95,7 @@ export const cleanDetails = () => (dispatch, getState) => {
 
 export const getChapter = (id, num) => async (dispatch, getState) => {
   try {
-    const res = await axios.get(
-      `https://us-central1-monosotakos.cloudfunctions.net/api/chapter/get/${id}/${num}`
-    );
+    const res = await axios.get(`${baseUrl}/chapter/get/${id}/${num}`);
     dispatch({
       type: GET_CHAPTER,
       payload: res.data,
@@ -119,9 +118,7 @@ export const cleanChapter = () => (dispatch, getState) => {
 
 export const getSearch = () => async (dispatch, getState) => {
   try {
-    const res = await axios.get(
-      `https://us-central1-monosotakos.cloudfunctions.net/api/serie/name`
-    );
+    const res = await axios.get(`${baseUrl}/serie/name`);
     dispatch({
       type: GET_SEARCH,
       payload: res.data,
@@ -133,9 +130,7 @@ export const getSearch = () => async (dispatch, getState) => {
 
 export const getAllMovies = () => async (dispatch, getState) => {
   try {
-    const res = await axios.get(
-      "https://us-central1-monosotakos.cloudfunctions.net/api/getApi/getSerie"
-    );
+    const res = await axios.get(`${baseUrl}/getApi/getSerie`);
     var movies = [];
     for (let i = 0; i < res.data.length; i++) {
       if (res.data[i].type === "Película") {

@@ -12,6 +12,8 @@ import ListItemText from "@material-ui/core/ListItemText";
 
 import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import CloseIcon from "@material-ui/icons/Close";
+import AssignmentIcon from "@material-ui/icons/Assignment";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -45,42 +47,81 @@ export default function RecipeReviewCard({
 }) {
   const classes = useStyles();
 
+  const handleCloseSession = () => {
+    localStorage.token = "";
+    localStorage.name = "";
+  };
+
   return (
     <Card className={classes.root} style={{ marginTop: 10 }}>
       <CardHeader
         avatar={<Avatar aria-label="recipe" src={avatar} />}
-        title="Desconocido"
+        title={
+          localStorage.token && localStorage.name
+            ? localStorage.name
+            : "Desconocido"
+        }
         subheader="Kooga"
       />
 
       <CardContent>
         <div className={classes.rootList}>
-          <List component="nav" aria-label="main mailbox folders">
-            <ListItem
-              button
-              onClick={() => {
-                handleClose();
-                handleClickOpenLogin();
-              }}
-            >
-              <ListItemIcon>
-                <ExitToAppIcon />
-              </ListItemIcon>
-              <ListItemText primary="Iniciar sesión" />
-            </ListItem>
-            <ListItem
-              button
-              onClick={() => {
-                handleClose();
-                handleClickOpenSignUp();
-              }}
-            >
-              <ListItemIcon>
-                <PersonAddIcon />
-              </ListItemIcon>
-              <ListItemText primary="Crear cuenta" />
-            </ListItem>
-          </List>
+          {localStorage.token && localStorage.name ? (
+            <List component="nav" aria-label="main mailbox folders">
+              {localStorage.rol === "admin|admin3" && (
+                <ListItem
+                  button
+                  onClick={() => {
+                    handleClose();
+                  }}
+                >
+                  <ListItemIcon>
+                    <AssignmentIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Administrar" />
+                </ListItem>
+              )}
+              <ListItem
+                button
+                onClick={() => {
+                  handleClose();
+                  handleCloseSession();
+                }}
+              >
+                <ListItemIcon>
+                  <CloseIcon />
+                </ListItemIcon>
+                <ListItemText primary="Cerrar sesión" />
+              </ListItem>
+            </List>
+          ) : (
+            <List component="nav" aria-label="main mailbox folders">
+              <ListItem
+                button
+                onClick={() => {
+                  handleClose();
+                  handleClickOpenLogin();
+                }}
+              >
+                <ListItemIcon>
+                  <ExitToAppIcon />
+                </ListItemIcon>
+                <ListItemText primary="Iniciar sesión" />
+              </ListItem>
+              <ListItem
+                button
+                onClick={() => {
+                  handleClose();
+                  handleClickOpenSignUp();
+                }}
+              >
+                <ListItemIcon>
+                  <PersonAddIcon />
+                </ListItemIcon>
+                <ListItemText primary="Crear cuenta" />
+              </ListItem>
+            </List>
+          )}
         </div>
       </CardContent>
     </Card>
