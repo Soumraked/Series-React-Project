@@ -134,6 +134,7 @@ export default function CustomizedDialogs({ open, handleClose }) {
         setMessagePass("");
         handleClose();
         setCharge(false);
+        window.location.reload();
       })
       .catch((error) => {
         setMessageName("");

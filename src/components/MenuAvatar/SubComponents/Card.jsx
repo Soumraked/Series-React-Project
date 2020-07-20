@@ -15,6 +15,9 @@ import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import CloseIcon from "@material-ui/icons/Close";
 import AssignmentIcon from "@material-ui/icons/Assignment";
 
+import { useDispatch } from "react-redux";
+import { setRol } from "../../../redux/seriesDucks";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 345,
@@ -45,11 +48,14 @@ export default function RecipeReviewCard({
   handleClickOpenSignUp,
   handleClose,
 }) {
+  const dispatch = useDispatch();
   const classes = useStyles();
 
   const handleCloseSession = () => {
     localStorage.token = "";
     localStorage.name = "";
+    dispatch(setRol("error"));
+    window.location.reload();
   };
 
   return (

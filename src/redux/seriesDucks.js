@@ -8,6 +8,7 @@ const dataInitial = {
   details: {},
   chapter: {},
   names: {},
+  rol: {},
 };
 
 //API URL
@@ -24,6 +25,7 @@ const GET_CHAPTER = "GET_CHAPTER";
 const GET_SEARCH = "GET_SEARCH";
 
 //Set
+const SET_ROL = "SET_ROL";
 
 //Reducer
 export default function seriesReducer(state = dataInitial, action) {
@@ -40,6 +42,8 @@ export default function seriesReducer(state = dataInitial, action) {
       return { ...state, chapter: action.payload };
     case GET_SEARCH:
       return { ...state, names: action.payload };
+    case SET_ROL:
+      return { ...state, rol: action.payload };
     default:
       return state;
   }
@@ -144,4 +148,11 @@ export const getAllMovies = () => async (dispatch, getState) => {
   } catch (error) {
     console.log(error);
   }
+};
+
+export const setRol = (rol) => (dispatch, getState) => {
+  dispatch({
+    type: SET_ROL,
+    payload: { rol },
+  });
 };

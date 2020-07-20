@@ -82,7 +82,7 @@ function App() {
               <Route exact path="/" component={Home}></Route>
               <Route exact path="/series" component={Series}></Route>
               <Route exact path="/peliculas" component={Movies}></Route>
-              <Route exact path="/configuracion" component={Settings}></Route>
+              <Route exact path="/admin" component={Settings}></Route>
               <Route exact path="/series/:id" component={SerieDetails}></Route>
               <Route exact path="/series/:id/:num" component={Chapter}></Route>
               <Route component={Error}></Route>
